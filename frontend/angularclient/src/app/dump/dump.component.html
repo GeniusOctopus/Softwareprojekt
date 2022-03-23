@@ -1,0 +1,16 @@
+<p>dump works!</p>
+<button (click)="showDumps()">Get Dumps</button>
+<table>
+  <thead>
+    <th>Id</th>
+    <th>testAttribute</th>
+  </thead>
+  <tbody>
+    <tr *ngFor="let dump of dumps">
+      <td>{{dump.id}}</td>
+      <td>{{dump.testAttribute}}</td>
+    </tr>
+  </tbody>
+</table>
+
+<pre>{{dumps | json}}</pre>

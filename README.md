@@ -13,4 +13,4 @@ Angular CLI installieren: ```npm install -g @angular/cli```
 Angular Projekt ausführen
 -------------------------
 
-im Verzeichnis /frontend den Befehl ```ng serve --open``` ausführen
+im Verzeichnis /frontend/angularclient den Befehl ```ng serve --open``` ausführen

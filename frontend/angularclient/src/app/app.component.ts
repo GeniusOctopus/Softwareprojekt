@@ -6,5 +6,27 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'angularclient';
+  navHomeActiveClass = 'active'
+  navVoteActiveClass = ''
+  navStatisticsActiveClass = ''
+
+  setNavActiveClass(a: string) {
+    switch (a){
+      case 'home':
+        this.navHomeActiveClass = 'active'
+        this.navVoteActiveClass = ''
+        this.navStatisticsActiveClass = ''
+        break;
+      case 'vote':
+        this.navVoteActiveClass = 'active'
+        this.navHomeActiveClass = ''
+        this.navStatisticsActiveClass = ''
+        break;
+      case 'statistics':
+        this.navStatisticsActiveClass = 'active'
+        this.navHomeActiveClass = ''
+        this.navVoteActiveClass = ''
+        break;
+    }
+  }
 }

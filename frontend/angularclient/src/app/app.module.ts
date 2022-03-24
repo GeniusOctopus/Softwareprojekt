@@ -6,11 +6,17 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { DumpComponent } from './dump/dump.component';
 import {DumpService} from "../service/dumpService";
+import { VoteComponent } from './vote/vote.component';
+import { HomeComponent } from './home/home.component';
+import { StatisticsComponent } from './statistics/statistics.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    DumpComponent
+    DumpComponent,
+    VoteComponent,
+    HomeComponent,
+    StatisticsComponent
   ],
   imports: [
     BrowserModule,

@@ -32,7 +32,7 @@ public class VoteController {
 
     @ApiMethod(description = "Speichert ein Bild in der Datenbank")
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public @ResponseBody Vote addVote(@ApiPathParam(name = "vote", description = "Wertung, welche ind er Datenbank hinzugefügt werden soll") @Valid @RequestBody Vote vote) {
+    public @ResponseBody Vote addVote(@ApiPathParam(name = "vote", description = "Wertung, welche in der Datenbank hinzugefügt werden soll") @Valid @RequestBody Vote vote) {
 
         return voteService.addVote(vote);
     }

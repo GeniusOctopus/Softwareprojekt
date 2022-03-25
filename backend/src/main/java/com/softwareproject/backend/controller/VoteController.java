@@ -25,16 +25,14 @@ public class VoteController {
 
     @ApiMethod(description = "Gibt alle Vote-Einträge zurück")
     @RequestMapping(value = "/votes", method = RequestMethod.GET)
-    public @ResponseBody
-    List<Vote> getAllIVotes() {
+    public @ResponseBody List<Vote> getAllIVotes() {
 
         return voteService.getAllIVotes();
     }
 
     @ApiMethod(description = "Speichert ein Bild in der Datenbank")
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public @ResponseBody
-    Vote addVote(@ApiPathParam(name = "vote", description = "Wertung, welche ind er Datenbank hinzugefügt werden soll") @Valid @RequestBody Vote vote) {
+    public @ResponseBody Vote addVote(@ApiPathParam(name = "vote", description = "Wertung, welche ind er Datenbank hinzugefügt werden soll") @Valid @RequestBody Vote vote) {
 
         return voteService.addVote(vote);
     }

@@ -5,6 +5,7 @@ import com.softwareproject.backend.service.ImageService;
 import org.jsondoc.core.annotation.Api;
 import org.jsondoc.core.annotation.ApiMethod;
 import org.jsondoc.core.annotation.ApiPathParam;
+import org.jsondoc.core.annotation.ApiQueryParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -54,8 +55,10 @@ public class ImageController {
     @ApiMethod(description = "Speichert mehrere Bilder in der Datenbank, die Daten werden von der CatApi abgerufen")
     @RequestMapping(value = "/addMultiple/{limit}", method = RequestMethod.GET)
     public @ResponseBody List<Image> addImages(
-            @ApiPathParam(name = "limit", description = "Anzahl der Bilder, welche in der Datenbank gespeichert werden sollen") @PathVariable("limit") int limit) {
+            @ApiPathParam(name = "limit", description = "Anzahl der Bilder, welche in der Datenbank gespeichert werden sollen") @PathVariable("limit") int limit,
+            @ApiQueryParam(name = "minProportionFactor", description = "minimaler Proportionsfaktor") @RequestParam("minProportionFactor") double minProportionFactor,
+            @ApiQueryParam(name = "maxProportionFactor", description = "maximaler Proportionsfaktor") @RequestParam("maxProportionFactor") double maxProportionFactor) {
 
-        return imageService.addImages(limit);
+        return imageService.addImages(limit, minProportionFactor, maxProportionFactor);
     }
 }

@@ -4,7 +4,6 @@ import com.softwareproject.backend.model.Image;
 import com.softwareproject.backend.repository.ImageRepository;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
@@ -23,20 +22,23 @@ import java.util.List;
 @Service
 public class ImageService {
 
-    @Autowired
-    ImageRepository imageRepository;
+    private final ImageRepository imageRepository;
+
+    public ImageService(ImageRepository imageRepository) {
+        this.imageRepository = imageRepository;
+    }
 
     public List<Image> getAllImages() {
 
         return imageRepository.findAll();
     }
 
-    public List<Image> getImagesForVoting(){
+    public List<Image> getImagesForVoting() {
 
         return imageRepository.getImagesForVoting();
     }
 
-    public void increaseTimesShownForVoting(int id){
+    public void increaseTimesShownForVoting(int id) {
 
         imageRepository.increaseTimesShownForVoting(id);
     }
@@ -46,7 +48,7 @@ public class ImageService {
         return imageRepository.save(image);
     }
 
-    public List<Image> addImages(int limit) {
+    public List<Image> addImages(int limit, double minProportionFactor, double maxProportionFactor) {
 
         String catApiUrl = "https://api.thecatapi.com/v1/images/search?limit=" + limit;
         HttpClient httpClient = HttpClient
@@ -62,7 +64,10 @@ public class ImageService {
                     .build();
             HttpResponse<String> httpResponse = httpClient.send(httpRequest, HttpResponse.BodyHandlers.ofString());
 
-            return imageRepository.saveAll(parseJson(httpResponse.body()));
+            List<Image> imageList = parseJson(httpResponse.body());
+            getOnlyImagesWithCorrectProportion(imageList, minProportionFactor, maxProportionFactor);
+
+            return imageRepository.saveAll(imageList);
         } catch (URISyntaxException | IOException | InterruptedException e) {
             e.printStackTrace();
         }
@@ -88,5 +93,13 @@ public class ImageService {
         });
 
         return imageList;
+    }
+
+    private void getOnlyImagesWithCorrectProportion(List<Image> imageList, double minProportionFactor, double maxProportionFactor) {
+
+        imageList.removeIf(image -> {
+            double proportionalFactor = (double) image.getHeight() / image.getWidth();
+            return proportionalFactor < minProportionFactor || proportionalFactor > maxProportionFactor;
+        });
     }
 }

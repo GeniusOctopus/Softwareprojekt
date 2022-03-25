@@ -13,8 +13,11 @@ import java.util.List;
 @Service
 public class VoteService {
 
-    @Autowired
-    VoteRepository voteRepository;
+    final VoteRepository voteRepository;
+
+    public VoteService(VoteRepository voteRepository) {
+        this.voteRepository = voteRepository;
+    }
 
     public List<Vote> getAllIVotes() {
 

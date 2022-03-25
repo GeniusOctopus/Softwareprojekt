@@ -70,39 +70,15 @@ class VoteControllerTest {
                 10,
                 false);
 
-        String jsonResponse = "{\"id\":1,\"datetime\":123456789,\"fk_ImageId_Winner\":{\"id\":1,\"datetime\":12345,\"catApiId\":\"abc\",\"url\":\"http://abc.de\",\"width\":100,\"height\":200,\"timesShown\":1},\"fk_ImageId_Loser\":{\"id\":2,\"datetime\":123456,\"catApiId\":\"ght\",\"url\":\"http://ght.de\",\"width\":150,\"height\":300,\"timesShown\":2},\"duration\":10,\"winnerOnLeftSide\":false}";
-        String jsonRequest = "{\n" +
-                "  \"id\": 1,\n" +
-                "  \"datetime\": 123456789,\n" +
-                "  \"fk_ImageId_Winner\": {\n" +
-                "    \"id\": 1,\n" +
-                "    \"datetime\": 12345,\n" +
-                "    \"catApiId\": \"abc\",\n" +
-                "    \"url\": \"http://abc.de\",\n" +
-                "    \"width\": 100,\n" +
-                "    \"height\": 200,\n" +
-                "    \"timesShown\": 1\n" +
-                "  },\n" +
-                "  \"fk_ImageId_Loser\": {\n" +
-                "    \"id\": 2,\n" +
-                "    \"datetime\": 123456,\n" +
-                "    \"catApiId\": \"ght\",\n" +
-                "    \"url\": \"http://ght.de\",\n" +
-                "    \"width\": 150,\n" +
-                "    \"height\": 300,\n" +
-                "    \"timesShown\": 2\n" +
-                "  },\n" +
-                "  \"duration\": 10,\n" +
-                "  \"winnerOnLeftSide\": false\n" +
-                "}";
+        String jsonRequestAndResponse = "{\"id\":1,\"datetime\":123456789,\"fk_ImageId_Winner\":{\"id\":1,\"datetime\":12345,\"catApiId\":\"abc\",\"url\":\"http://abc.de\",\"width\":100,\"height\":200,\"timesShown\":1},\"fk_ImageId_Loser\":{\"id\":2,\"datetime\":123456,\"catApiId\":\"ght\",\"url\":\"http://ght.de\",\"width\":150,\"height\":300,\"timesShown\":2},\"duration\":10,\"winnerOnLeftSide\":false}";
 
         when(voteService.addVote(vote)).thenReturn(vote);
 
         mockMvc.perform(post("/vote/add")
-                        .content(jsonRequest)
+                        .content(jsonRequestAndResponse)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(content().json(jsonResponse));
+                .andExpect(content().json(jsonRequestAndResponse));
 
         verify(voteService, times(1)).addVote(vote);
     }

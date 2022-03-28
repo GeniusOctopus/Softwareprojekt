@@ -39,14 +39,14 @@ class VoteControllerTest {
         List<Vote> voteList = new ArrayList<>();
         voteList.add(new Vote(
                 1, 123456789,
-                new Image(1, 12345, "abc", "http://abc.de", 100, 200, 1),
-                new Image(2, 123456, "ght", "http://ght.de", 150, 300, 2),
+                new Image(1, 12345, "abc", "http://abc.de", 100, 200, 1, "abc"),
+                new Image(2, 123456, "ght", "http://ght.de", 150, 300, 2, "abc"),
                 10,
                 false));
         voteList.add(new Vote(
                 2, 123456789,
-                new Image(3, 12345, "gdf", "http://abc.de", 50, 120, 4),
-                new Image(4, 123456, "fsd", "http://ght.de", 150, 300, 3),
+                new Image(3, 12345, "gdf", "http://abc.de", 50, 120, 4, "abc"),
+                new Image(4, 123456, "fsd", "http://ght.de", 150, 300, 3, "abc"),
                 10,
                 false));
 
@@ -66,12 +66,12 @@ class VoteControllerTest {
 
         Vote vote = new Vote(
                 1, 123456789,
-                new Image(1, 12345, "abc", "http://abc.de", 100, 200, 1),
-                new Image(2, 123456, "ght", "http://ght.de", 150, 300, 2),
+                new Image(1, 12345, "abc", "http://abc.de", 100, 200, 1, "abc"),
+                new Image(2, 123456, "ght", "http://ght.de", 150, 300, 2, "abcd"),
                 10,
                 false);
 
-        String jsonRequestAndResponse = "{\"id\":1,\"datetime\":123456789,\"fk_ImageId_Winner\":{\"id\":1,\"datetime\":12345,\"catApiId\":\"abc\",\"url\":\"http://abc.de\",\"width\":100,\"height\":200,\"timesShown\":1},\"fk_ImageId_Loser\":{\"id\":2,\"datetime\":123456,\"catApiId\":\"ght\",\"url\":\"http://ght.de\",\"width\":150,\"height\":300,\"timesShown\":2},\"duration\":10,\"winnerOnLeftSide\":false}";
+        String jsonRequestAndResponse = "{\"id\":1,\"datetime\":123456789,\"fk_ImageId_Winner\":{\"id\":1,\"datetime\":12345,\"catApiId\":\"abc\",\"url\":\"http://abc.de\",\"width\":100,\"height\":200,\"timesShown\":1,\"catApiBreedId\":\"abc\"},\"fk_ImageId_Loser\":{\"id\":2,\"datetime\":123456,\"catApiId\":\"ght\",\"url\":\"http://ght.de\",\"width\":150,\"height\":300,\"timesShown\":2,\"catApiBreedId\":\"abcd\"},\"duration\":10,\"winnerOnLeftSide\":false}";
 
         when(voteService.addVote(vote)).thenReturn(vote);
 

@@ -23,10 +23,10 @@ class ImageRepositoryTest {
     @Test
     void getImagesForVoting() {
 
-        Image imageOne = new Image(1, 1648112468722L, "bkm", "https://cdn2.thecatapi.com/images/bkm.jpg", 669, 650, 0);
-        Image imageTwo = new Image(2, 1648112468722L, "cke", "https://cdn2.thecatapi.com/images/cke.jpg", 620, 465, 0);
-        Image imageThree = new Image(3, 1648112468722L, "abc", "https://cdn2.thecatapi.com/images/cke.jpg", 620, 465, 1);
-        Image imageFour = new Image(4, 1648112468722L, "def", "https://cdn2.thecatapi.com/images/cke.jpg", 620, 465, 1);
+        Image imageOne = new Image(1, 1648112468722L, "bkm", "https://cdn2.thecatapi.com/images/bkm.jpg", 669, 650, 0, "abc");
+        Image imageTwo = new Image(2, 1648112468722L, "cke", "https://cdn2.thecatapi.com/images/cke.jpg", 620, 465, 0, "abc");
+        Image imageThree = new Image(3, 1648112468722L, "abc", "https://cdn2.thecatapi.com/images/cke.jpg", 620, 465, 1, "abc");
+        Image imageFour = new Image(4, 1648112468722L, "def", "https://cdn2.thecatapi.com/images/cke.jpg", 620, 465, 1, "abc");
         imageRepository.saveAll(Arrays.asList(imageOne, imageTwo, imageThree, imageFour));
 
         List<Image> imageListResponse = imageRepository.getImagesForVoting();
@@ -39,7 +39,7 @@ class ImageRepositoryTest {
     @Test
     void increaseTimesShownForVoting() {
 
-        Image imageOne = new Image(1, 1648112468722L, "bkm", "https://cdn2.thecatapi.com/images/bkm.jpg", 669, 650, 0);
+        Image imageOne = new Image(1, 1648112468722L, "bkm", "https://cdn2.thecatapi.com/images/bkm.jpg", 669, 650, 0, "abc");
         imageRepository.save(imageOne);
 
         imageRepository.increaseTimesShownForVoting(1);

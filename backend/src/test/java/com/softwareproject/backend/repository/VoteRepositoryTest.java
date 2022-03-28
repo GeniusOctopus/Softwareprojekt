@@ -25,8 +25,8 @@ class VoteRepositoryTest {
     @Autowired
     ImageRepository imageRepository;
 
-    private final Image imageOne = new Image(1, 1648112468722L, "bkm", "https://cdn2.thecatapi.com/images/bkm.jpg", 669, 650, 0);
-    private final Image imageTwo = new Image(2, 1648112468722L, "cke", "https://cdn2.thecatapi.com/images/cke.jpg", 620, 465, 0);
+    private final Image imageOne = new Image(1, 1648112468722L, "bkm", "https://cdn2.thecatapi.com/images/bkm.jpg", 669, 650, 0, "abc");
+    private final Image imageTwo = new Image(2, 1648112468722L, "cke", "https://cdn2.thecatapi.com/images/cke.jpg", 620, 465, 0, "abc");
     private final Vote voteOne = new Vote(1, 12, imageOne, imageTwo, 10, false);
     private final Vote voteTwo = new Vote(2, 123, imageTwo, imageOne, 10, false);
     private final Vote voteThree = new Vote(3, 1234, imageOne, imageTwo, 10, true);

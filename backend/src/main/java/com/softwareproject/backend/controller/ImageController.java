@@ -1,5 +1,6 @@
 package com.softwareproject.backend.controller;
 
+import com.softwareproject.backend.api.ImageDetails;
 import com.softwareproject.backend.model.Image;
 import com.softwareproject.backend.service.ImageService;
 import org.jsondoc.core.annotation.Api;
@@ -50,6 +51,13 @@ public class ImageController {
     public @ResponseBody Image addImage(@ApiPathParam(name = "image", description = "Bild, welches in der Datenbank gespeichert werden soll") @Valid @RequestBody Image image) {
 
         return imageService.addImage(image);
+    }
+
+    @ApiMethod(description = "Gibt Details zu einem Bild zurück")
+    @RequestMapping(value = "/details/{id}", method = RequestMethod.GET)
+    public @ResponseBody ImageDetails getImageDetailsById(@ApiPathParam(name = "id", description = "ID des Bildes, zu welchem die Details abgerufen werden sollen") @PathVariable("id") int id) {
+
+        return imageService.getImageDetailsById(id);
     }
 
     @ApiMethod(description = "Speichert mehrere Bilder in der Datenbank, die Daten werden von der CatApi abgerufen")

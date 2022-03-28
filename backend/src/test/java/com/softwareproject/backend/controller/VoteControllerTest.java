@@ -1,5 +1,6 @@
 package com.softwareproject.backend.controller;
 
+import com.softwareproject.backend.api.Ranking;
 import com.softwareproject.backend.model.Image;
 import com.softwareproject.backend.model.Vote;
 import com.softwareproject.backend.service.VoteService;
@@ -81,5 +82,23 @@ class VoteControllerTest {
                 .andExpect(content().json(jsonRequestAndResponse));
 
         verify(voteService, times(1)).addVote(vote);
+    }
+
+    @Test
+    void getRanking() throws Exception {
+
+        List<Ranking> rankingList = new ArrayList<>();
+        rankingList.add(new Ranking("ur1", 123456789, 1, 1, 12345, 0.5));
+        rankingList.add(new Ranking("ur2", 123456789, 2, 2, 12345, 0.5));
+
+        String jsonResponse = "[{\"url\":\"ur1\",\"datetime\":123456789,\"wins\":1,\"loses\":1,\"insertDatetime\":12345,\"winsPerVote\":0.5},{\"url\":\"ur2\",\"datetime\":123456789,\"wins\":2,\"loses\":2,\"insertDatetime\":12345,\"winsPerVote\":0.5}]";
+
+        when(voteService.getRanking()).thenReturn(rankingList);
+
+        mockMvc.perform(get("/vote/ranking"))
+                .andExpect(status().isOk())
+                .andExpect(content().json(jsonResponse));
+
+        verify(voteService, times(1)).getRanking();
     }
 }

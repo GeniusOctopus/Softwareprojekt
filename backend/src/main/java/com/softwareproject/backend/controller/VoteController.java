@@ -1,5 +1,6 @@
 package com.softwareproject.backend.controller;
 
+import com.softwareproject.backend.api.Ranking;
 import com.softwareproject.backend.model.Vote;
 import com.softwareproject.backend.service.VoteService;
 import org.jsondoc.core.annotation.Api;
@@ -35,5 +36,12 @@ public class VoteController {
     public @ResponseBody Vote addVote(@ApiPathParam(name = "vote", description = "Wertung, welche in der Datenbank hinzugefügt werden soll") @Valid @RequestBody Vote vote) {
 
         return voteService.addVote(vote);
+    }
+
+    @ApiMethod(description = "Gibt das Ranking aller Bilder zurück")
+    @RequestMapping(value = "/ranking", method = RequestMethod.GET)
+    public @ResponseBody List<Ranking> getRanking() {
+
+        return voteService.getRanking();
     }
 }

@@ -17,6 +17,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @Api(name = "Image", description = "Endpunkt für Images", group = "Image")
+@CrossOrigin(origins = "http://localhost:4200/")
 @Controller
 @RequestMapping("/image")
 public class ImageController {

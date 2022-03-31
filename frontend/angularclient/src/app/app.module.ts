@@ -9,6 +9,7 @@ import {DumpService} from "../service/dumpService";
 import { VoteComponent } from './vote/vote.component';
 import { HomeComponent } from './home/home.component';
 import { StatisticsComponent } from './statistics/statistics.component';
+import {ImageService} from "../service/imageService";
 
 @NgModule({
   declarations: [
@@ -23,7 +24,10 @@ import { StatisticsComponent } from './statistics/statistics.component';
     AppRoutingModule,
     HttpClientModule
   ],
-  providers: [DumpService],
+  providers: [
+    DumpService,
+    ImageService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

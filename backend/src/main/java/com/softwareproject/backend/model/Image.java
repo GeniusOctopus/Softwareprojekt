@@ -43,11 +43,15 @@ public class Image {
     @NotNull
     private int timesShown;
 
+    @ApiObjectField(name = "catApiBreedId", description = "ID der Rasse, wurde von der CatApi vergeben", required = true)
+    @NotNull
+    private String catApiBreedId;
+
     public Image() {
 
     }
 
-    public Image(int id, long datetime, String catApiId, String url, int width, int height, int timesShown) {
+    public Image(int id, long datetime, String catApiId, String url, int width, int height, int timesShown, String catApiBreedId) {
         this.id = id;
         this.datetime = datetime;
         this.catApiId = catApiId;
@@ -55,15 +59,17 @@ public class Image {
         this.width = width;
         this.height = height;
         this.timesShown = timesShown;
+        this.catApiBreedId = catApiBreedId;
     }
 
-    public Image(long datetime, String catApiId, String url, int width, int height, int timesShown) {
+    public Image(long datetime, String catApiId, String url, int width, int height, int timesShown, String catApiBreedId) {
         this.datetime = datetime;
         this.catApiId = catApiId;
         this.url = url;
         this.width = width;
         this.height = height;
         this.timesShown = timesShown;
+        this.catApiBreedId = catApiBreedId;
     }
 
     public int getId() {
@@ -122,16 +128,24 @@ public class Image {
         this.timesShown = timesShown;
     }
 
+    public String getCatApiBreedId() {
+        return catApiBreedId;
+    }
+
+    public void setCatApiBreedId(String catApiBreedId) {
+        this.catApiBreedId = catApiBreedId;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Image image = (Image) o;
-        return id == image.id && datetime == image.datetime && width == image.width && height == image.height && timesShown == image.timesShown && Objects.equal(catApiId, image.catApiId) && Objects.equal(url, image.url);
+        return id == image.id && datetime == image.datetime && width == image.width && height == image.height && timesShown == image.timesShown && Objects.equal(catApiId, image.catApiId) && Objects.equal(url, image.url) && Objects.equal(catApiBreedId, image.catApiBreedId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(id, datetime, catApiId, url, width, height, timesShown);
+        return Objects.hashCode(id, datetime, catApiId, url, width, height, timesShown, catApiBreedId);
     }
 }

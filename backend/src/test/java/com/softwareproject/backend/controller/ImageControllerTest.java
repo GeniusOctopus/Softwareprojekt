@@ -1,5 +1,6 @@
 package com.softwareproject.backend.controller;
 
+import com.softwareproject.backend.api.ImageDetails;
 import com.softwareproject.backend.model.Image;
 import com.softwareproject.backend.model.Vote;
 import com.softwareproject.backend.service.ImageService;
@@ -29,8 +30,8 @@ class ImageControllerTest {
     private MockMvc mockMvc;
 
     private final List<Image> imageList = new ArrayList<>();
-    private final Image imageOne = new Image(1, 12345, "abc", "http://abc.de", 100, 200, 1);
-    private final Image imageTwo = new Image(2, 123455, "gdewrf", "http://werwer.de", 450, 120, 2);
+    private final Image imageOne = new Image(1, 12345, "abc", "http://abc.de", 100, 200, 1, "abc");
+    private final Image imageTwo = new Image(2, 123455, "gdewrf", "http://werwer.de", 450, 120, 2, "abc");
 
     @BeforeEach
     void SetUp(){
@@ -81,9 +82,23 @@ class ImageControllerTest {
     }
 
     @Test
+    void getImageDetailsById() throws Exception {
+
+        String jsonResponse = "{\"image\":{\"id\":1,\"datetime\":12345,\"catApiId\":\"abc\",\"url\":\"http://abc.de\",\"width\":100,\"height\":200,\"timesShown\":1,\"catApiBreedId\":\"abc\"},\"breedName\":\"Somial\",\"description\":\"Ne schöne Katze\",\"origin\":\"Deutschland\",\"wikipediaUrl\":\"wikiURL\"}";
+
+        when(imageService.getImageDetailsById(1)).thenReturn(new ImageDetails(imageOne, "Somial", "Ne schöne Katze", "Deutschland", "wikiURL"));
+
+        mockMvc.perform(get("/image/details/1"))
+                .andExpect(status().isOk())
+                .andExpect(content().json(jsonResponse));
+
+        verify(imageService, times(1)).getImageDetailsById(1);
+    }
+
+    @Test
     void addImage() throws Exception {
 
-        String jsonRequestAndResponse = "{\"id\":1,\"datetime\":12345,\"catApiId\":\"abc\",\"url\":\"http://abc.de\",\"width\":100,\"height\":200,\"timesShown\":1}";
+        String jsonRequestAndResponse = "{\"id\":1,\"datetime\":12345,\"catApiId\":\"abc\",\"url\":\"http://abc.de\",\"width\":100,\"height\":200,\"timesShown\":1,\"catApiBreedId\":\"abc\"}";
 
         when(imageService.addImage(imageOne)).thenReturn(imageOne);
 

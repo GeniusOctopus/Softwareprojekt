@@ -1,5 +1,7 @@
 package com.softwareproject.backend.service;
 
+import com.softwareproject.backend.api.Ranking;
+import com.softwareproject.backend.api.RankingResponse;
 import com.softwareproject.backend.model.Image;
 import com.softwareproject.backend.model.Vote;
 import com.softwareproject.backend.repository.VoteRepository;
@@ -18,15 +20,15 @@ class VoteServiceTest {
     private final VoteService voteService = new VoteService(voteRepository);
 
     private final List<Vote> voteListMock = new ArrayList<>();
-    private Vote voteRequest;
+    private Vote voteResponseAndRequest;
     private final Image imageWinner = new Image();
     private final Image imageLoser = new Image();
 
     @BeforeEach
     void setUp() {
 
-        voteRequest = new Vote(123, 123456789, imageWinner, imageLoser, 10, true);
-        voteListMock.add(voteRequest);
+        voteResponseAndRequest = new Vote(123, 123456789, imageWinner, imageLoser, 10, true);
+        voteListMock.add(voteResponseAndRequest);
     }
 
     @Test
@@ -45,12 +47,39 @@ class VoteServiceTest {
     @Test
     void addVote() {
 
-        when(voteRepository.save(voteRequest)).thenReturn(voteRequest);
+        when(voteRepository.save(voteResponseAndRequest)).thenReturn(voteResponseAndRequest);
 
-        Vote voteResponse = voteService.addVote(voteRequest);
-        checkEntry(voteRequest, voteResponse);
+        Vote voteResponse = voteService.addVote(voteResponseAndRequest);
+        checkEntry(voteResponseAndRequest, voteResponse);
 
-        verify(voteRepository, times(1)).save(voteRequest);
+        verify(voteRepository, times(1)).save(voteResponseAndRequest);
+    }
+
+    @Test
+    void getRanking(){
+
+        List<RankingResponse> rankingResponseWinnerList = new ArrayList<>();
+        rankingResponseWinnerList.add(new RankingResponse("testurl1", 1234, 3));
+        rankingResponseWinnerList.add(new RankingResponse("testurl2", 12345, 2));
+
+        List<RankingResponse> rankingResponseLoserList = new ArrayList<>();
+        rankingResponseLoserList.add(new RankingResponse("testurl1", 1234, 1));
+        rankingResponseLoserList.add(new RankingResponse("testurl2", 12345, 2));
+        rankingResponseLoserList.add(new RankingResponse("testurl3", 12345, 5));
+
+
+        when(voteRepository.getWins()).thenReturn(rankingResponseWinnerList);
+        when(voteRepository.getLoses()).thenReturn(rankingResponseLoserList);
+
+        List<Ranking> rankingList = voteService.getRanking();
+
+        assertEquals(3, rankingList.size());
+        checkRankingObject(new Ranking("testurl1", 3, 1, 1234, 0.75), rankingList.get(0));
+        checkRankingObject(new Ranking("testurl2", 2, 2, 12345, 0.5), rankingList.get(1));
+        checkRankingObject(new Ranking("testurl3", 0, 5, 12345, 0), rankingList.get(2));
+
+        verify(voteRepository, times(1)).getWins();
+        verify(voteRepository, times(1)).getLoses();
     }
 
     private void checkEntry(Vote voteExpected, Vote voteActual) {
@@ -61,5 +90,14 @@ class VoteServiceTest {
         assertEquals(voteExpected.getFk_ImageId_Loser(), voteActual.getFk_ImageId_Loser());
         assertEquals(voteExpected.getFk_ImageId_Winner(), voteActual.getFk_ImageId_Winner());
         assertEquals(voteExpected.isWinnerOnLeftSide(), voteActual.isWinnerOnLeftSide());
+    }
+
+    private void checkRankingObject(Ranking rankingExpected, Ranking rankingActual) {
+
+        assertEquals(rankingExpected.getUrl(), rankingActual.getUrl());
+        assertEquals(rankingExpected.getWins(), rankingActual.getWins());
+        assertEquals(rankingExpected.getLoses(), rankingActual.getLoses());
+        assertEquals(rankingExpected.getInsertDatetime(), rankingActual.getInsertDatetime());
+        assertEquals(rankingExpected.getWinsPerVote(), rankingActual.getWinsPerVote());
     }
 }

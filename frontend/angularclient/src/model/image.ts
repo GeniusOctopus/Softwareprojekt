@@ -5,5 +5,6 @@ export class Image {
   url: string | undefined;
   width: number | undefined;
   height: number | undefined;
-  timesShown: number | undefined
+  timesShown: number | undefined;
+  catApiBreedid: string | undefined;
 }

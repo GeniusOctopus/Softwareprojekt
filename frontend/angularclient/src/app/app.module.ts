@@ -10,6 +10,7 @@ import { VoteComponent } from './vote/vote.component';
 import { HomeComponent } from './home/home.component';
 import { StatisticsComponent } from './statistics/statistics.component';
 import {ImageService} from "../service/imageService";
+import {VoteService} from "../service/voteService";
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import {ImageService} from "../service/imageService";
   ],
   providers: [
     DumpService,
-    ImageService
+    ImageService,
+    VoteService
   ],
   bootstrap: [AppComponent]
 })

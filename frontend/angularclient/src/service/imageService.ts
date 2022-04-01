@@ -5,13 +5,17 @@ import {Observable} from "rxjs";
 @Injectable()
 export class ImageService {
 
-  imageUrl = "http://localhost:8080/image/voting"
+  imageBaseUrl = "http://localhost:8080/image"
 
   constructor(private http: HttpClient) {
 
   }
 
   getImagesForVoting(): Observable<any> {
-    return this.http.get(this.imageUrl);
+    return this.http.get(this.imageBaseUrl + "/voting");
+  }
+
+  async putIncreaseTimesShownForVoting(imageId: number) {
+    return await this.http.put<number>(this.imageBaseUrl + `/increaseTimesShownForVoting/${imageId}`, imageId).toPromise();
   }
 }

@@ -16,10 +16,12 @@ export class VoteComponent implements OnInit {
   isLoading: boolean = false;
   startTime: number = 0;
   endTime: number = 0;
+  overlayClass = "";
 
   constructor(private imageService: ImageService, private voteService: VoteService) {}
 
   async showImagesForVoting() {
+    this.overlayClass = "overlay-milkglass";
     this.isLoading = true;
     await new Promise(f => setTimeout(f, 2000));
     this.imageService.getImagesForVoting()
@@ -29,6 +31,7 @@ export class VoteComponent implements OnInit {
         }
       );
     this.isLoading = false;
+    this.overlayClass = "";
     this.startTime = new Date().getTime();
   }
 
@@ -46,6 +49,8 @@ export class VoteComponent implements OnInit {
     await this.imageService.putIncreaseTimesShownForVoting(imageWinner.id);
     await this.imageService.putIncreaseTimesShownForVoting(imageLoser.id);
     await this.voteService.postVote(vote)
+
+    await this.showImagesForVoting();
   }
 
   ngOnInit(): void {

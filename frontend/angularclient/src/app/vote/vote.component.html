@@ -4,25 +4,33 @@
   </div>
 </div>
 <div class="row">
-  <div class="col-6">
+  <div class="col-sm-12 col-md-6">
     <div class="card text-end">
       <div *ngIf="isLoading" class="spinner-border" role="status">
         <span class="visually-hidden">Loading...</span>
       </div>
-      <img *ngIf="images && images[0]" src="{{images[0].url}}">
+      <div class="{{overlayClass}} card-img-top">
+        <img *ngIf="images && images[0]" class="card-img-top img-fluid" [src]="images[0].url"
+             alt="Katzenbild bezogen von https://thecatapi.com/">
+      </div>
       <div class="card-body">
-        <button [disabled]="!images[0]" class="btn btn-primary" (click)="submitVote(images[0], images[1], true)"><i class="fa fa-heart"></i></button>
+        <button [disabled]="!images[0] || isLoading" class="btn btn-primary" (click)="submitVote(images[0], images[1], true)"><i
+          class="fa fa-heart"></i></button>
       </div>
     </div>
   </div>
-  <div class="col-6">
+  <div class="col-sm-12 col-md-6">
     <div class="card text-end">
       <div *ngIf="isLoading" class="spinner-border" role="status">
         <span class="visually-hidden">Loading...</span>
       </div>
-      <img *ngIf="images && images[1]" src="{{images[1].url}}">
+      <div class="{{overlayClass}} card-img-top">
+        <img *ngIf="images && images[1]" class="card-img-top img-fluid" [src]="images[1].url"
+             alt="Katzenbild bezogen von https://thecatapi.com/">
+      </div>
       <div class="card-body">
-        <button [disabled]="!images[1]" class="btn btn-primary" (click)="submitVote(images[1], images[0], false)"><i class="fa fa-heart"></i></button>
+        <button [disabled]="!images[1] || isLoading" class="btn btn-primary" (click)="submitVote(images[1], images[0], false)"><i
+          class="fa fa-heart"></i></button>
       </div>
     </div>
   </div>

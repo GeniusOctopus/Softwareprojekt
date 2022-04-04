@@ -1,12 +1,12 @@
 export class Image {
   id: number;
-  datetime: bigint | undefined;
+  datetime: number | undefined;
   catApiId: string | undefined;
   url: string | undefined;
   width: number | undefined;
   height: number | undefined;
   timesShown: number | undefined;
-  catApiBreedid: string | undefined;
+  catApiBreedId: string | undefined;
 
   constructor(id: number) {
     this.id = id;

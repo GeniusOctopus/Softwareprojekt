@@ -1,0 +1,31 @@
+<div class="row">
+  <div class="col-sm-6">
+    <img id="image" src="{{data.imageDetails.image.url}}" alt="Picture of a cat">
+  </div>
+  <div class="col-sm-6">
+    <div class="row">
+      <div class="col-sm-6">
+        <b>Wins</b>
+        <p>{{data.ranking.wins}}</p>
+        <b>Wins per vote</b>
+        <p>{{data.ranking.winsPerVote | percent}}</p>
+        <b>Breed</b>
+        <p>{{data.imageDetails.breedName}}</p>
+        <b>Wikipedia</b>
+        <p><a href="{{data.imageDetails.wikipediaUrl}}">{{data.imageDetails.wikipediaUrl}}</a></p>
+      </div>
+      <div class="col-sm-6">
+        <b>Loses</b>
+        <p>{{data.ranking.loses}}</p>
+        <b>Date added</b>
+        <p>{{data.ranking.datetime | date:'dd.MM.yyyy'}}</p>
+        <b>Origin</b>
+        <p>{{data.imageDetails.origin}}</p>
+      </div>
+    </div>
+    <div class="row">
+        <b>Description</b>
+        <p>{{data.imageDetails.description}}</p>
+    </div>
+  </div>
+</div>

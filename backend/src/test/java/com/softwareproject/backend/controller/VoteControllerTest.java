@@ -33,6 +33,9 @@ class VoteControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
+    private final Image imageOne = new Image(1, 12345, "abc", "http://abc.de", 100, 200, 1, "abc");
+    private final Image imageTwo = new Image(2, 123456, "ght", "http://ght.de", 150, 300, 2, "abcd");
+
     @Test
     void getAllIVotes() throws Exception {
 
@@ -64,12 +67,7 @@ class VoteControllerTest {
     @Test
     void addVote() throws Exception {
 
-        Vote vote = new Vote(
-                1, 123456789,
-                new Image(1, 12345, "abc", "http://abc.de", 100, 200, 1, "abc"),
-                new Image(2, 123456, "ght", "http://ght.de", 150, 300, 2, "abcd"),
-                10,
-                false);
+        Vote vote = new Vote(1, 123456789, imageOne, imageTwo, 10, false);
 
         String jsonRequestAndResponse = "{\"id\":1,\"datetime\":123456789,\"fk_ImageId_Winner\":{\"id\":1,\"datetime\":12345,\"catApiId\":\"abc\",\"url\":\"http://abc.de\",\"width\":100,\"height\":200,\"timesShown\":1,\"catApiBreedId\":\"abc\"},\"fk_ImageId_Loser\":{\"id\":2,\"datetime\":123456,\"catApiId\":\"ght\",\"url\":\"http://ght.de\",\"width\":150,\"height\":300,\"timesShown\":2,\"catApiBreedId\":\"abcd\"},\"duration\":10,\"winnerOnLeftSide\":false}";
 
@@ -88,10 +86,10 @@ class VoteControllerTest {
     void getRanking() throws Exception {
 
         List<Ranking> rankingList = new ArrayList<>();
-        rankingList.add(new Ranking("ur1", 123456789, 1, 1, 12345, 0.5));
-        rankingList.add(new Ranking("ur2", 123456789, 2, 2, 12345, 0.5));
+        rankingList.add(new Ranking(imageOne, 123456789, 1, 1, 0.5));
+        rankingList.add(new Ranking(imageTwo, 123456789, 2, 2, 0.5));
 
-        String jsonResponse = "[{\"url\":\"ur1\",\"datetime\":123456789,\"wins\":1,\"loses\":1,\"insertDatetime\":12345,\"winsPerVote\":0.5},{\"url\":\"ur2\",\"datetime\":123456789,\"wins\":2,\"loses\":2,\"insertDatetime\":12345,\"winsPerVote\":0.5}]";
+        String jsonResponse = "[{\"image\":{\"id\":1,\"datetime\":12345,\"catApiId\":\"abc\",\"url\":\"http://abc.de\",\"width\":100,\"height\":200,\"timesShown\":1,\"catApiBreedId\":\"abc\"},\"datetime\":123456789,\"wins\":1,\"loses\":1,\"winsPerVote\":0.5},{\"image\":{\"id\":2,\"datetime\":123456,\"catApiId\":\"ght\",\"url\":\"http://ght.de\",\"width\":150,\"height\":300,\"timesShown\":2,\"catApiBreedId\":\"abcd\"},\"datetime\":123456789,\"wins\":2,\"loses\":2,\"winsPerVote\":0.5}]";
 
         when(voteService.getRanking()).thenReturn(rankingList);
 

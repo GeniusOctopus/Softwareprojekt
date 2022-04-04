@@ -1,6 +1,7 @@
 import {Injectable} from "@angular/core";
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
+import {ImageDetails} from "../model/imageDetails";
 
 @Injectable()
 export class ImageService {
@@ -17,5 +18,9 @@ export class ImageService {
 
   async putIncreaseTimesShownForVoting(imageId: number) {
     return await this.http.put<number>(this.imageBaseUrl + `/increaseTimesShownForVoting/${imageId}`, imageId).toPromise();
+  }
+
+  async getDetails(imageId: number | undefined) {
+    return await this.http.get<ImageDetails>(this.imageBaseUrl + `/details/` + imageId).toPromise();
   }
 }

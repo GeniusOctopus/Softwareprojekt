@@ -9,7 +9,9 @@ import org.springframework.validation.annotation.Validated;
 
 import javax.validation.Valid;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Validated
 @Service
@@ -39,20 +41,19 @@ public class VoteService {
 
         for (RankingResponse rankingResponse : winsResponseList) {
             rankingList.add(new Ranking(
-                    rankingResponse.getUrl(),
+                    rankingResponse.getImage(),
                     System.currentTimeMillis(),
                     Math.toIntExact(rankingResponse.getValue()),
                     0,
-                    rankingResponse.getDatetime(),
                     1
             ));
         }
 
         for (RankingResponse rankingResponse : losesResponseList) {
-            boolean isImageAlreadyInList = rankingList.stream().anyMatch(rr -> rr.getUrl().equals(rankingResponse.getUrl()));
+            boolean isImageAlreadyInList = rankingList.stream().anyMatch(rr -> rr.getImage().equals(rankingResponse.getImage()));
             if (isImageAlreadyInList) {
                 rankingList.stream()
-                        .filter(rr -> rankingResponse.getUrl().equals(rr.getUrl()))
+                        .filter(rr -> rankingResponse.getImage().equals(rr.getImage()))
                         .findFirst()
                         .ifPresentOrElse(ranking -> {
                             ranking.setLoses(Math.toIntExact(rankingResponse.getValue()));
@@ -61,17 +62,18 @@ public class VoteService {
 
             } else {
                 rankingList.add(new Ranking(
-                        rankingResponse.getUrl(),
+                        rankingResponse.getImage(),
                         System.currentTimeMillis(),
                         0,
                         Math.toIntExact(rankingResponse.getValue()),
-                        rankingResponse.getDatetime(),
                         0
                 ));
             }
         }
 
-        return rankingList;
+        return rankingList.stream()
+                .sorted(Comparator.comparing(Ranking::getWinsPerVote).reversed())
+                .collect(Collectors.toList());
     }
 
     private double getWinsPerVote(int numberOfWins, int numberOfLoses) {

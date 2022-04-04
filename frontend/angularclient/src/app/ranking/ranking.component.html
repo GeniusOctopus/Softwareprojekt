@@ -1,0 +1,22 @@
+<div class="row">
+  <table class="table table-striped table-hover">
+    <thead>
+    <th scope="col">Rank</th>
+    <th scope="col">Picture</th>
+    <th scope="col">Wins</th>
+    <th scope="col">Loses</th>
+    <th scope="col">Wins per vote</th>
+    <th scope="col">Date added</th>
+    </thead>
+    <tbody>
+    <tr *ngFor="let rank of ranking; let i = index " (click)="showDetails(rank)">
+      <th scope="row" class="align-middle">{{i + 1}}</th>
+      <td class="align-middle"><img src="{{rank.image?.url}}" alt="Pircture of a cat" width="50px" height="50px" id="thumbnail"></td>
+      <td class="align-middle">{{rank.wins}}</td>
+      <td class="align-middle">{{rank.loses}}</td>
+      <td class="align-middle">{{rank.winsPerVote | percent}}</td>
+      <td class="align-middle">{{rank.image?.datetime | date:'dd.MM.yyyy'}}</td>
+    </tr>
+    </tbody>
+  </table>
+</div>

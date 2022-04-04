@@ -11,6 +11,11 @@ import { HomeComponent } from './home/home.component';
 import { StatisticsComponent } from './statistics/statistics.component';
 import {ImageService} from "../service/imageService";
 import {VoteService} from "../service/voteService";
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {MatDialogModule} from "@angular/material/dialog";
+import { ImageDetailsComponent } from './image-details/image-details.component';
+import {MatTabsModule} from "@angular/material/tabs";
+import { RankingComponent } from './ranking/ranking.component';
 
 @NgModule({
   declarations: [
@@ -18,13 +23,18 @@ import {VoteService} from "../service/voteService";
     DumpComponent,
     VoteComponent,
     HomeComponent,
-    StatisticsComponent
+    StatisticsComponent,
+    ImageDetailsComponent,
+    RankingComponent
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    HttpClientModule
-  ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        HttpClientModule,
+        BrowserAnimationsModule,
+        MatDialogModule,
+        MatTabsModule
+    ],
   providers: [
     DumpService,
     ImageService,

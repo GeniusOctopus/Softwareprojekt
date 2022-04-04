@@ -40,8 +40,8 @@ class VoteRepositoryTest {
         List<RankingResponse> rankingResponseList = voteRepository.getWins();
 
         assertEquals(2, rankingResponseList.size());
-        checkEntry(new RankingResponse("https://cdn2.thecatapi.com/images/bkm.jpg", 1648112468722L, 2), rankingResponseList.get(0));
-        checkEntry(new RankingResponse("https://cdn2.thecatapi.com/images/cke.jpg", 1648112468722L, 1), rankingResponseList.get(1));
+        checkEntry(new RankingResponse(imageOne, 1648112468722L, 2), rankingResponseList.get(0));
+        checkEntry(new RankingResponse(imageTwo, 1648112468722L, 1), rankingResponseList.get(1));
     }
 
     @Test
@@ -53,13 +53,13 @@ class VoteRepositoryTest {
         List<RankingResponse> rankingResponseList = voteRepository.getLoses();
 
         assertEquals(2, rankingResponseList.size());
-        checkEntry(new RankingResponse("https://cdn2.thecatapi.com/images/bkm.jpg", 1648112468722L, 1), rankingResponseList.get(0));
-        checkEntry(new RankingResponse("https://cdn2.thecatapi.com/images/cke.jpg", 1648112468722L, 2), rankingResponseList.get(1));
+        checkEntry(new RankingResponse(imageOne, 1648112468722L, 1), rankingResponseList.get(0));
+        checkEntry(new RankingResponse(imageTwo, 1648112468722L, 2), rankingResponseList.get(1));
     }
 
     private void checkEntry(RankingResponse rankingResponseExpected, RankingResponse rankingResponseActual) {
 
-        assertEquals(rankingResponseExpected.getUrl(), rankingResponseActual.getUrl());
+        assertEquals(rankingResponseExpected.getImage(), rankingResponseActual.getImage());
         assertEquals(rankingResponseExpected.getValue(), rankingResponseActual.getValue());
         assertEquals(rankingResponseExpected.getDatetime(), rankingResponseActual.getDatetime());
     }

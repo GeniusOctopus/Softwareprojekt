@@ -1,41 +1,40 @@
 package com.softwareproject.backend.api;
 
+import com.softwareproject.backend.model.Image;
+
 public class Ranking {
 
-    private String url;
+    private Image image;
     private long datetime;
     private int wins;
     private int loses;
-    private long insertDatetime;
     private double winsPerVote;
 
     public Ranking() {
 
     }
 
-    public Ranking(String url, long datetime, int wins, int loses, long insertDatetime, double winsPerVote) {
-        this.url = url;
+    public Ranking(Image image, long datetime, int wins, int loses, double winsPerVote) {
+        this.image = image;
         this.datetime = datetime;
         this.wins = wins;
         this.loses = loses;
-        this.insertDatetime = insertDatetime;
         this.winsPerVote = winsPerVote;
     }
 
-    public Ranking(String url, int wins, int loses, long insertDatetime, double winsPerVote) {
-        this.url = url;
+    public Ranking(Image image, int wins, int loses, double winsPerVote) {
+        this.image = image;
         this.wins = wins;
         this.loses = loses;
-        this.insertDatetime = insertDatetime;
         this.winsPerVote = winsPerVote;
     }
 
-    public String getUrl() {
-        return url;
+    public Image getImage() {
+        return image;
     }
 
-    public void setUrl(String url) {
-        this.url = url;
+    public void setImage(Image image) {
+        this.image = image;
     }
 
     public long getDatetime() {
@@ -60,14 +59,6 @@ public class Ranking {
 
     public void setLoses(int loses) {
         this.loses = loses;
-    }
-
-    public long getInsertDatetime() {
-        return insertDatetime;
-    }
-
-    public void setInsertDatetime(long insertDatetime) {
-        this.insertDatetime = insertDatetime;
     }
 
     public double getWinsPerVote() {

@@ -1,8 +1,10 @@
 package com.softwareproject.backend.api;
 
+import com.softwareproject.backend.model.Image;
+
 public class RankingResponse {
 
-    private String url;
+    private Image image;
     private long datetime;
     private long value;
 
@@ -10,18 +12,18 @@ public class RankingResponse {
 
     }
 
-    public RankingResponse(String url, long datetime, long value) {
-        this.url = url;
+    public RankingResponse(Image image, long datetime, long value) {
+        this.image = image;
         this.datetime = datetime;
         this.value = value;
     }
 
-    public String getUrl() {
-        return url;
+    public Image getImage() {
+        return image;
     }
 
-    public void setUrl(String url) {
-        this.url = url;
+    public void setImage(Image image) {
+        this.image = image;
     }
 
     public long getDatetime() {

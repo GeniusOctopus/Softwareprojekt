@@ -1,16 +1,16 @@
 import {Injectable} from "@angular/core";
 import {HttpClient} from "@angular/common/http";
 import {Vote} from "../model/vote";
-import {catchError} from "rxjs/operators";
 import {Observable} from "rxjs";
-import {HttpError} from "./exception/HttpError";
+import {Ranking} from "../model/ranking";
 
 @Injectable()
 export class VoteService {
 
   voteBaseUrl = "http://localhost:8080/vote";
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) {
+  }
 
   async postVote(vote: Vote): Promise<Observable<Vote>> {
     console.log("Image vote")
@@ -25,5 +25,9 @@ export class VoteService {
       response = data
     });
     return response;
+  }
+
+  getRanking() {
+    return this.http.get<Ranking[]>(this.voteBaseUrl + "/ranking");
   }
 }

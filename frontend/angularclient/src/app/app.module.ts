@@ -16,6 +16,11 @@ import {MatDialogModule} from "@angular/material/dialog";
 import { ImageDetailsComponent } from './image-details/image-details.component';
 import {MatTabsModule} from "@angular/material/tabs";
 import { RankingComponent } from './ranking/ranking.component';
+import {MatTableModule} from "@angular/material/table";
+import {MatSortModule} from "@angular/material/sort";
+import {MatPaginatorModule} from "@angular/material/paginator";
+import {MatFormFieldModule} from "@angular/material/form-field";
+import {MatInputModule} from "@angular/material/input";
 
 @NgModule({
   declarations: [
@@ -27,14 +32,19 @@ import { RankingComponent } from './ranking/ranking.component';
     ImageDetailsComponent,
     RankingComponent
   ],
-    imports: [
-        BrowserModule,
-        AppRoutingModule,
-        HttpClientModule,
-        BrowserAnimationsModule,
-        MatDialogModule,
-        MatTabsModule
-    ],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    HttpClientModule,
+    BrowserAnimationsModule,
+    MatDialogModule,
+    MatTabsModule,
+    MatTableModule,
+    MatSortModule,
+    MatPaginatorModule,
+    MatFormFieldModule,
+    MatInputModule
+  ],
   providers: [
     DumpService,
     ImageService,

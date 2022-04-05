@@ -1,5 +1,42 @@
-<div class="row">
-  <table class="table table-striped table-hover">
+<div class="row material-table">
+  <table mat-table matSort [dataSource]="dataSource" class="lessons-table mat-elevation-z8">
+
+    <ng-container matColumnDef="position">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header="position"> Position </th>
+      <td mat-cell *matCellDef="let i = index">
+        {{this.paginator.pageIndex == 0 ? i + 1 : 1 + i + this.paginator.pageIndex * this.paginator.pageSize}}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="image">
+      <th mat-header-cell *matHeaderCellDef> Image </th>
+      <td mat-cell *matCellDef="let rank"> <img id="cat-thumbnail" src="{{rank.image.url}}" alt="Pircture of a cat" width="50px" height="50px"></td>
+    </ng-container>
+
+    <ng-container matColumnDef="wins">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header="wins"> Wins </th>
+      <td mat-cell *matCellDef="let rank"> {{rank.wins}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="loses">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header="loses"> Loses </th>
+      <td mat-cell *matCellDef="let rank"> {{rank.loses}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="winsPerVote">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header="winsPerVote"> Wins per vote </th>
+      <td mat-cell *matCellDef="let rank"> {{rank.winsPerVote| percent}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="datetime" >
+      <th mat-header-cell *matHeaderCellDef mat-sort-header="datetime"> Date added </th>
+      <td mat-cell *matCellDef="let rank"> {{rank.image.datetime| date:'dd.MM.yyyy'}} </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let rank; columns: displayedColumns;" (click)="showDetails(rank)"></tr>
+
+    <!--
     <thead>
     <th scope="col">Rank</th>
     <th scope="col">Picture</th>
@@ -18,5 +55,7 @@
       <td class="align-middle">{{rank.image?.datetime | date:'dd.MM.yyyy'}}</td>
     </tr>
     </tbody>
+    -->
   </table>
+  <mat-paginator #paginator [pageSize]="10" [pageSizeOptions]="[10, 25, 100]" showFirstLastButtons></mat-paginator>
 </div>

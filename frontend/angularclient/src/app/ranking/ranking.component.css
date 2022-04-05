@@ -1,3 +1,7 @@
 #cat-thumbnail{
-  border-radius: 50%
+  border-radius: 50%;
+}
+
+.mat-cell{
+  height: 60px;
 }

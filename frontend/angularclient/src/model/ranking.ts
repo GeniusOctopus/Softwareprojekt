@@ -6,4 +6,5 @@ export class Ranking {
   wins: number  | undefined;
   loses: number  | undefined;
   winsPerVote: number  | undefined;
+  rank: number  | undefined;
 }

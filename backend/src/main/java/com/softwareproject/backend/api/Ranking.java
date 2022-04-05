@@ -9,6 +9,7 @@ public class Ranking {
     private int wins;
     private int loses;
     private double winsPerVote;
+    private int rank;
 
     public Ranking() {
 
@@ -22,11 +23,12 @@ public class Ranking {
         this.winsPerVote = winsPerVote;
     }
 
-    public Ranking(Image image, int wins, int loses, double winsPerVote) {
+    public Ranking(Image image, int wins, int loses, double winsPerVote, int rank) {
         this.image = image;
         this.wins = wins;
         this.loses = loses;
         this.winsPerVote = winsPerVote;
+        this.rank = rank;
     }
 
     public Image getImage() {
@@ -67,5 +69,13 @@ public class Ranking {
 
     public void setWinsPerVote(double winsPerVote) {
         this.winsPerVote = winsPerVote;
+    }
+
+    public int getRank() {
+        return rank;
+    }
+
+    public void setRank(int rank) {
+        this.rank = rank;
     }
 }

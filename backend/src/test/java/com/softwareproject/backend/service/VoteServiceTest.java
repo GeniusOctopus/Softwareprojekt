@@ -76,9 +76,9 @@ class VoteServiceTest {
         List<Ranking> rankingList = voteService.getRanking();
 
         assertEquals(3, rankingList.size());
-        checkRankingObject(new Ranking(imageOne, 3, 1, 0.75), rankingList.get(0));
-        checkRankingObject(new Ranking(imageTwo, 2, 2, 0.5), rankingList.get(1));
-        checkRankingObject(new Ranking(imageThree, 0, 5, 0), rankingList.get(2));
+        checkRankingObject(new Ranking(imageOne, 3, 1, 0.75, 1), rankingList.get(0));
+        checkRankingObject(new Ranking(imageTwo, 2, 2, 0.5, 2), rankingList.get(1));
+        checkRankingObject(new Ranking(imageThree, 0, 5, 0.0, 3), rankingList.get(2));
 
         verify(voteRepository, times(1)).getWins();
         verify(voteRepository, times(1)).getLoses();
@@ -100,5 +100,6 @@ class VoteServiceTest {
         assertEquals(rankingExpected.getWins(), rankingActual.getWins());
         assertEquals(rankingExpected.getLoses(), rankingActual.getLoses());
         assertEquals(rankingExpected.getWinsPerVote(), rankingActual.getWinsPerVote());
+        assertEquals(rankingExpected.getRank(), rankingActual.getRank());
     }
 }

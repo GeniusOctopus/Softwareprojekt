@@ -71,9 +71,22 @@ public class VoteService {
             }
         }
 
-        return rankingList.stream()
+        List<Ranking> rankingListOrdered = rankingList.stream()
                 .sorted(Comparator.comparing(Ranking::getWinsPerVote).reversed())
                 .collect(Collectors.toList());
+
+        for (int i = 0; i < rankingListOrdered.size(); i++){
+            double lastWinsPerVote = i == 0
+                    ? -1
+                    : rankingListOrdered.get(i - 1).getWinsPerVote();
+            if (lastWinsPerVote == rankingListOrdered.get(i).getWinsPerVote()){
+                rankingListOrdered.get(i).setRank(rankingListOrdered.get(i - 1).getRank());
+            }else {
+                rankingListOrdered.get(i).setRank(i +1);
+            }
+        }
+
+        return rankingListOrdered;
     }
 
     private double getWinsPerVote(int numberOfWins, int numberOfLoses) {

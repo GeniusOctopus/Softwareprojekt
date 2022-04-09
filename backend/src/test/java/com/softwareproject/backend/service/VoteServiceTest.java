@@ -2,6 +2,8 @@ package com.softwareproject.backend.service;
 
 import com.softwareproject.backend.api.Ranking;
 import com.softwareproject.backend.api.RankingResponse;
+import com.softwareproject.backend.api.WinnerOnLeftAndRightSideResponse;
+import com.softwareproject.backend.api.WinnerOnLeftSide;
 import com.softwareproject.backend.model.Image;
 import com.softwareproject.backend.model.Vote;
 import com.softwareproject.backend.repository.VoteRepository;
@@ -84,6 +86,36 @@ class VoteServiceTest {
         verify(voteRepository, times(1)).getLoses();
     }
 
+
+    @Test
+    void getCountOfWinnerOnLeftAndRightSide(){
+
+        List<WinnerOnLeftAndRightSideResponse> winnerOnLeftAndRightSideResponseList = new ArrayList<>();
+        winnerOnLeftAndRightSideResponseList.add(new WinnerOnLeftAndRightSideResponse(true, 5));
+        winnerOnLeftAndRightSideResponseList.add(new WinnerOnLeftAndRightSideResponse(false, 8));
+
+
+        when(voteRepository.getCountOfWInnerOnLeftAndRightSide()).thenReturn(winnerOnLeftAndRightSideResponseList);
+
+        WinnerOnLeftSide winnerOnLeftSide = voteService.getCountOfWinnerOnLeftAndRightSide();
+
+        checkEntry(new WinnerOnLeftSide(5, 8), winnerOnLeftSide);
+
+        verify(voteRepository, times(1)).getCountOfWInnerOnLeftAndRightSide();
+    }
+
+    @Test
+    void getCountOfWinnerOnLeftAndRightSideWithNoVotes(){
+
+        when(voteRepository.getCountOfWInnerOnLeftAndRightSide()).thenReturn(new ArrayList<>());
+
+        WinnerOnLeftSide winnerOnLeftSide = voteService.getCountOfWinnerOnLeftAndRightSide();
+
+        checkEntry(new WinnerOnLeftSide(0,0), winnerOnLeftSide);
+
+        verify(voteRepository, times(1)).getCountOfWInnerOnLeftAndRightSide();
+    }
+
     private void checkEntry(Vote voteExpected, Vote voteActual) {
 
         assertEquals(voteExpected.getId(), voteActual.getId());
@@ -92,6 +124,12 @@ class VoteServiceTest {
         assertEquals(voteExpected.getFk_ImageId_Loser(), voteActual.getFk_ImageId_Loser());
         assertEquals(voteExpected.getFk_ImageId_Winner(), voteActual.getFk_ImageId_Winner());
         assertEquals(voteExpected.isWinnerOnLeftSide(), voteActual.isWinnerOnLeftSide());
+    }
+
+    private void checkEntry(WinnerOnLeftSide winnerOnLeftSideExpected, WinnerOnLeftSide winnerOnLeftSideActual) {
+
+        assertEquals(winnerOnLeftSideExpected.getWinnerOnLeftSideCount(), winnerOnLeftSideActual.getWinnerOnLeftSideCount());
+        assertEquals(winnerOnLeftSideExpected.getWinnerOnRightSideCount(), winnerOnLeftSideActual.getWinnerOnRightSideCount());
     }
 
     private void checkRankingObject(Ranking rankingExpected, Ranking rankingActual) {

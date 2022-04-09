@@ -1,6 +1,7 @@
 package com.softwareproject.backend.controller;
 
 import com.softwareproject.backend.api.Ranking;
+import com.softwareproject.backend.api.WinnerOnLeftSide;
 import com.softwareproject.backend.model.Vote;
 import com.softwareproject.backend.service.VoteService;
 import org.jsondoc.core.annotation.Api;
@@ -41,5 +42,12 @@ public class VoteController {
     public @ResponseBody List<Ranking> getRanking() {
 
         return voteService.getRanking();
+    }
+
+    @ApiMethod(description = "Die Anzahl der Bilder zurück, welche jeweils aus der linken und rechten Seite ein Voting gewonnen haben")
+    @RequestMapping(value = "/statistics/countOfWinnerOnLeftAndRightSide", method = RequestMethod.GET)
+    public @ResponseBody WinnerOnLeftSide getCountOfWinnerOnLeftAndRightSide() {
+
+        return voteService.getCountOfWinnerOnLeftAndRightSide();
     }
 }

@@ -2,6 +2,8 @@ package com.softwareproject.backend.service;
 
 import com.softwareproject.backend.api.Ranking;
 import com.softwareproject.backend.api.RankingResponse;
+import com.softwareproject.backend.api.WinnerOnLeftAndRightSideResponse;
+import com.softwareproject.backend.api.WinnerOnLeftSide;
 import com.softwareproject.backend.model.Vote;
 import com.softwareproject.backend.repository.VoteRepository;
 import org.springframework.stereotype.Service;
@@ -31,6 +33,26 @@ public class VoteService {
     public Vote addVote(@Valid Vote vote) {
 
         return voteRepository.save(vote);
+    }
+
+    public WinnerOnLeftSide getCountOfWinnerOnLeftAndRightSide(){
+
+        List<WinnerOnLeftAndRightSideResponse> winnerOnLeftAndRightSideResponseList = voteRepository.getCountOfWInnerOnLeftAndRightSide();
+
+        WinnerOnLeftAndRightSideResponse winnerOnLeftSideCount = winnerOnLeftAndRightSideResponseList.stream()
+                .filter(WinnerOnLeftAndRightSideResponse::isWinnerOnLeftSide)
+                .findFirst()
+                .orElse(new WinnerOnLeftAndRightSideResponse(true, 0));
+
+        WinnerOnLeftAndRightSideResponse winnerOnRightSideCount = winnerOnLeftAndRightSideResponseList.stream()
+                .filter(winnerOnLeftAndRightSideResponse -> !winnerOnLeftAndRightSideResponse.isWinnerOnLeftSide())
+                .findFirst()
+                .orElse(new WinnerOnLeftAndRightSideResponse(false, 0));
+
+        return new WinnerOnLeftSide(
+                (int) winnerOnLeftSideCount.getCount(),
+                (int) winnerOnRightSideCount.getCount()
+        );
     }
 
     public List<Ranking> getRanking() {

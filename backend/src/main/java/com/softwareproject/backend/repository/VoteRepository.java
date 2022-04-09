@@ -1,6 +1,7 @@
 package com.softwareproject.backend.repository;
 
 import com.softwareproject.backend.api.RankingResponse;
+import com.softwareproject.backend.api.WinnerOnLeftAndRightSideResponse;
 import com.softwareproject.backend.model.Vote;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -20,4 +21,9 @@ public interface VoteRepository extends JpaRepository<Vote, Integer> {
                     "FROM Vote v JOIN v.fk_ImageId_Loser i " +
                     "GROUP BY i.url")
     List<RankingResponse> getLoses();
+
+    @Query(
+            value = "SELECT new com.softwareproject.backend.api.WinnerOnLeftAndRightSideResponse(v.winnerOnLeftSide, COUNT(v.winnerOnLeftSide)) " +
+                    "FROM Vote v GROUP BY v.winnerOnLeftSide")
+    List<WinnerOnLeftAndRightSideResponse> getCountOfWInnerOnLeftAndRightSide();
 }

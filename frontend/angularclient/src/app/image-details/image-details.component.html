@@ -1,4 +1,4 @@
-<div class="row">
+<div id="image-details-modal" class="row">
   <div class="col-sm-6">
     <img id="image" src="{{data.imageDetails.image.url}}" alt="Picture of a cat">
   </div>
@@ -22,7 +22,7 @@
         <b>Date added</b>
         <p>{{data.imageDetails.image.datetime | date:'dd.MM.yyyy'}}</p>
         <b>Wikipedia</b>
-        <p><a href="{{data.imageDetails.wikipediaUrl}}">{{data.imageDetails.wikipediaUrl}}</a></p>
+        <p><a href="{{data.imageDetails.wikipediaUrl}}">Link to Wikipedia</a></p>
       </div>
     </div>
     <div class="row">

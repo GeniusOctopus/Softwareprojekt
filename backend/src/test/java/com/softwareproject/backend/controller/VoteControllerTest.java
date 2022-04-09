@@ -1,6 +1,7 @@
 package com.softwareproject.backend.controller;
 
 import com.softwareproject.backend.api.Ranking;
+import com.softwareproject.backend.api.WinnerOnLeftSide;
 import com.softwareproject.backend.model.Image;
 import com.softwareproject.backend.model.Vote;
 import com.softwareproject.backend.service.VoteService;
@@ -98,5 +99,21 @@ class VoteControllerTest {
                 .andExpect(content().json(jsonResponse));
 
         verify(voteService, times(1)).getRanking();
+    }
+
+    @Test
+    void getCountOfWinnerOnLeftAndRightSide() throws Exception {
+
+        WinnerOnLeftSide winnerOnLeftSide = new WinnerOnLeftSide(3, 8);
+
+        String jsonResponse = "{\"winnerOnLeftSideCount\":3,\"winnerOnRightSideCount\":8}";
+
+        when(voteService.getCountOfWinnerOnLeftAndRightSide()).thenReturn(winnerOnLeftSide);
+
+        mockMvc.perform(get("/vote/statistics/countOfWinnerOnLeftAndRightSide"))
+                .andExpect(status().isOk())
+                .andExpect(content().json(jsonResponse));
+
+        verify(voteService, times(1)).getCountOfWinnerOnLeftAndRightSide();
     }
 }

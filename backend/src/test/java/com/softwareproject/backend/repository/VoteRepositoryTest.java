@@ -2,6 +2,7 @@ package com.softwareproject.backend.repository;
 
 import com.softwareproject.backend.BackendApplication;
 import com.softwareproject.backend.api.RankingResponse;
+import com.softwareproject.backend.api.WinnerOnLeftAndRightSideResponse;
 import com.softwareproject.backend.model.Image;
 import com.softwareproject.backend.model.Vote;
 import org.junit.jupiter.api.Test;
@@ -57,10 +58,29 @@ class VoteRepositoryTest {
         checkEntry(new RankingResponse(imageTwo, 1648112468722L, 2), rankingResponseList.get(1));
     }
 
+    @Test
+    void getCountOfWInnerOnLeftAndRightSide() {
+
+        imageRepository.saveAll(Arrays.asList(imageOne, imageTwo));
+        voteRepository.saveAll(Arrays.asList(voteOne, voteTwo, voteThree));
+
+        List<WinnerOnLeftAndRightSideResponse>  winnerOnLeftAndRightSideResponseList = voteRepository.getCountOfWInnerOnLeftAndRightSide();
+
+        assertEquals(2, winnerOnLeftAndRightSideResponseList.size());
+        checkEntry(new WinnerOnLeftAndRightSideResponse(false, 2), winnerOnLeftAndRightSideResponseList.get(0));
+        checkEntry(new WinnerOnLeftAndRightSideResponse(true, 1), winnerOnLeftAndRightSideResponseList.get(1));
+    }
+
     private void checkEntry(RankingResponse rankingResponseExpected, RankingResponse rankingResponseActual) {
 
         assertEquals(rankingResponseExpected.getImage(), rankingResponseActual.getImage());
         assertEquals(rankingResponseExpected.getValue(), rankingResponseActual.getValue());
         assertEquals(rankingResponseExpected.getDatetime(), rankingResponseActual.getDatetime());
+    }
+
+    private void checkEntry(WinnerOnLeftAndRightSideResponse winnerOnLeftAndRightSideResponseExpected, WinnerOnLeftAndRightSideResponse winnerOnLeftAndRightSideResponseActual) {
+
+        assertEquals(winnerOnLeftAndRightSideResponseExpected.isWinnerOnLeftSide(), winnerOnLeftAndRightSideResponseActual.isWinnerOnLeftSide());
+        assertEquals(winnerOnLeftAndRightSideResponseExpected.getCount(), winnerOnLeftAndRightSideResponseActual.getCount());
     }
 }

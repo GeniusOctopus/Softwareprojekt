@@ -34,4 +34,9 @@ public interface VoteRepository extends JpaRepository<Vote, Integer> {
             value = "SELECT v.datetime FROM Vote v"
     )
     List<Long> findDatetime();
+
+    @Query(
+            value = "SELECT v.duration FROM Vote v"
+    )
+    List<Integer> findDuration();
 }

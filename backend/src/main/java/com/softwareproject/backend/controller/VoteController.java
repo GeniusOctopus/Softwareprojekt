@@ -1,9 +1,6 @@
 package com.softwareproject.backend.controller;
 
-import com.softwareproject.backend.model.BasicStatisticData;
-import com.softwareproject.backend.model.Ranking;
-import com.softwareproject.backend.model.WinnerOnLeftSide;
-import com.softwareproject.backend.model.Vote;
+import com.softwareproject.backend.model.*;
 import com.softwareproject.backend.service.VoteService;
 import org.jsondoc.core.annotation.Api;
 import org.jsondoc.core.annotation.ApiMethod;
@@ -62,5 +59,13 @@ public class VoteController {
     BasicStatisticData getBasicStatisticData() {
 
         return voteService.getBasicStatisticData();
+    }
+
+    @ApiMethod(description = "Gibt zurück, wie viel Zeit für die Votings benötigt wurde")
+    @RequestMapping(value = "/statistics/durationStatisticData", method = RequestMethod.GET)
+    public @ResponseBody
+    DurationStatisticData getDurationStatistic() {
+
+        return voteService.getDurationStatistic();
     }
 }

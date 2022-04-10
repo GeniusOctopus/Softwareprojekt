@@ -1,10 +1,7 @@
 package com.softwareproject.backend.service;
 
+import com.softwareproject.backend.model.*;
 import com.softwareproject.backend.response.*;
-import com.softwareproject.backend.model.BasicStatisticData;
-import com.softwareproject.backend.model.Ranking;
-import com.softwareproject.backend.model.Vote;
-import com.softwareproject.backend.model.WinnerOnLeftSide;
 import com.softwareproject.backend.repository.VoteRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
@@ -73,6 +70,38 @@ public class VoteService {
                 }).count());
 
         return basicStatisticData;
+    }
+
+    public DurationStatisticData getDurationStatistic() {
+
+        List<Integer> durationList = voteRepository.findDuration();
+        DurationStatisticData durationStatisticData = new DurationStatisticData();
+
+        for (Integer duration : durationList){
+            if (duration > 0 && duration < 1500){
+                durationStatisticData.increaseDurationData(1);
+            }else if (duration >= 1500 && duration < 2500){
+                durationStatisticData.increaseDurationData(2);
+            }else if (duration >= 2500 && duration < 3500){
+                durationStatisticData.increaseDurationData(3);
+            }else if (duration >= 3500 && duration < 4500){
+                durationStatisticData.increaseDurationData(4);
+            }else if (duration >= 4500 && duration < 5500){
+                durationStatisticData.increaseDurationData(5);
+            }else if (duration >= 5500 && duration < 6500){
+                durationStatisticData.increaseDurationData(6);
+            }else if (duration >= 6500 && duration < 7500){
+                durationStatisticData.increaseDurationData(7);
+            }else if (duration >= 7500 && duration < 8500){
+                durationStatisticData.increaseDurationData(8);
+            }else if (duration >= 8500 && duration < 9500){
+                durationStatisticData.increaseDurationData(9);
+            }else{
+                durationStatisticData.increaseDurationData(10);
+            }
+        }
+
+        return durationStatisticData;
     }
 
     public List<Ranking> getRanking() {

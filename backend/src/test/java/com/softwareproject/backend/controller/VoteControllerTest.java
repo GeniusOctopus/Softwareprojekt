@@ -1,9 +1,6 @@
 package com.softwareproject.backend.controller;
 
-import com.softwareproject.backend.model.Ranking;
-import com.softwareproject.backend.model.WinnerOnLeftSide;
-import com.softwareproject.backend.model.Image;
-import com.softwareproject.backend.model.Vote;
+import com.softwareproject.backend.model.*;
 import com.softwareproject.backend.service.VoteService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -112,5 +109,25 @@ class VoteControllerTest {
                 .andExpect(content().json(jsonResponse));
 
         verify(voteService, times(1)).getCountOfWinnerOnLeftAndRightSide();
+    }
+
+    @Test
+    void getDurationStatistic() throws Exception {
+
+        DurationStatisticData durationStatisticData = new DurationStatisticData();
+        durationStatisticData.increaseDurationData(1);
+        durationStatisticData.increaseDurationData(1);
+        durationStatisticData.increaseDurationData(2);
+        durationStatisticData.increaseDurationData(10);
+
+        String jsonResponse = "{\"durationData\":{\"1\":2,\"2\":1,\"3\":0,\"4\":0,\"5\":0,\"6\":0,\"7\":0,\"8\":0,\"9\":0,\"10\":1}}";
+
+        when(voteService.getDurationStatistic()).thenReturn(durationStatisticData);
+
+        mockMvc.perform(get("/vote/statistics/durationStatisticData"))
+                .andExpect(status().isOk())
+                .andExpect(content().json(jsonResponse));
+
+        verify(voteService, times(1)).getDurationStatistic();
     }
 }

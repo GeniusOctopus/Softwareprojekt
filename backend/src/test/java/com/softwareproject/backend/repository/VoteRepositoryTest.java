@@ -31,8 +31,8 @@ class VoteRepositoryTest {
     private final Image imageOne = new Image(1, 1648112468722L, "bkm", "https://cdn2.thecatapi.com/images/bkm.jpg", 669, 650, 0, "abc");
     private final Image imageTwo = new Image(2, 1648112468722L, "cke", "https://cdn2.thecatapi.com/images/cke.jpg", 620, 465, 0, "abc");
     private final Vote voteOne = new Vote(1, 12, imageOne, imageTwo, 10, false);
-    private final Vote voteTwo = new Vote(2, 123, imageTwo, imageOne, 10, false);
-    private final Vote voteThree = new Vote(3, 1234, imageOne, imageTwo, 10, true);
+    private final Vote voteTwo = new Vote(2, 123, imageTwo, imageOne, 11, false);
+    private final Vote voteThree = new Vote(3, 1234, imageOne, imageTwo, 12, true);
 
     @Test
     void getWins() {
@@ -83,6 +83,18 @@ class VoteRepositoryTest {
 
         assertEquals(3, datetimeList.size());
         assertThat(datetimeList, containsInAnyOrder(12L, 123L, 1234L));
+    }
+
+    @Test
+    void findDuration() {
+
+        imageRepository.saveAll(Arrays.asList(imageOne, imageTwo));
+        voteRepository.saveAll(Arrays.asList(voteOne, voteTwo, voteThree));
+
+        List<Integer> durationList = voteRepository.findDuration();
+
+        assertEquals(3, durationList.size());
+        assertThat(durationList, containsInAnyOrder(10, 11, 12));
     }
 
     private void checkEntry(RankingResponse rankingResponseExpected, RankingResponse rankingResponseActual) {

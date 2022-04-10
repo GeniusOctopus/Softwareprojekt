@@ -1,17 +1,13 @@
 package com.softwareproject.backend.service;
 
-import com.softwareproject.backend.model.Ranking;
+import com.softwareproject.backend.model.*;
 import com.softwareproject.backend.response.RankingResponse;
 import com.softwareproject.backend.response.WinnerOnLeftAndRightSideResponse;
-import com.softwareproject.backend.model.WinnerOnLeftSide;
-import com.softwareproject.backend.model.Image;
-import com.softwareproject.backend.model.Vote;
 import com.softwareproject.backend.repository.VoteRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
@@ -116,6 +112,29 @@ class VoteServiceTest {
         verify(voteRepository, times(1)).getCountOfWInnerOnLeftAndRightSide();
     }
 
+    @Test
+    void getDurationStatistic() {
+
+        when(voteRepository.findDuration()).thenReturn(Arrays.asList(500, 1200, 1501, 2500, 10000));
+
+        DurationStatisticData durationStatisticData = voteService.getDurationStatistic();
+
+        Map<Integer, Integer> durationStatisticDataExpected = new HashMap<>();
+        durationStatisticDataExpected.put(1, 2);
+        durationStatisticDataExpected.put(2, 1);
+        durationStatisticDataExpected.put(3, 1);
+        durationStatisticDataExpected.put(4, 0);
+        durationStatisticDataExpected.put(5, 0);
+        durationStatisticDataExpected.put(6, 0);
+        durationStatisticDataExpected.put(7, 0);
+        durationStatisticDataExpected.put(8, 0);
+        durationStatisticDataExpected.put(9, 0);
+        durationStatisticDataExpected.put(10, 1);
+        checkEntry(new DurationStatisticData(durationStatisticDataExpected), durationStatisticData);
+
+        verify(voteRepository, times(1)).findDuration();
+    }
+
     private void checkEntry(Vote voteExpected, Vote voteActual) {
 
         assertEquals(voteExpected.getId(), voteActual.getId());
@@ -130,6 +149,11 @@ class VoteServiceTest {
 
         assertEquals(winnerOnLeftSideExpected.getWinnerOnLeftSideCount(), winnerOnLeftSideActual.getWinnerOnLeftSideCount());
         assertEquals(winnerOnLeftSideExpected.getWinnerOnRightSideCount(), winnerOnLeftSideActual.getWinnerOnRightSideCount());
+    }
+
+    private void checkEntry(DurationStatisticData durationStatisticDataExpected, DurationStatisticData durationStatisticDataActual) {
+
+        assertEquals(durationStatisticDataExpected.getDurationData(), durationStatisticDataActual.getDurationData());
     }
 
     private void checkRankingObject(Ranking rankingExpected, Ranking rankingActual) {

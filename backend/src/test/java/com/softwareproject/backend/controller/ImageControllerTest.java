@@ -1,8 +1,7 @@
 package com.softwareproject.backend.controller;
 
-import com.softwareproject.backend.api.ImageDetails;
+import com.softwareproject.backend.model.ImageDetails;
 import com.softwareproject.backend.model.Image;
-import com.softwareproject.backend.model.Vote;
 import com.softwareproject.backend.service.ImageService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

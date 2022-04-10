@@ -1,7 +1,8 @@
 package com.softwareproject.backend.controller;
 
-import com.softwareproject.backend.api.Ranking;
-import com.softwareproject.backend.api.WinnerOnLeftSide;
+import com.softwareproject.backend.model.BasicStatisticData;
+import com.softwareproject.backend.model.Ranking;
+import com.softwareproject.backend.model.WinnerOnLeftSide;
 import com.softwareproject.backend.model.Vote;
 import com.softwareproject.backend.service.VoteService;
 import org.jsondoc.core.annotation.Api;
@@ -25,29 +26,41 @@ public class VoteController {
 
     @ApiMethod(description = "Gibt alle Vote-Einträge zurück")
     @RequestMapping(value = "/votes", method = RequestMethod.GET)
-    public @ResponseBody List<Vote> getAllIVotes() {
+    public @ResponseBody
+    List<Vote> getAllIVotes() {
 
         return voteService.getAllIVotes();
     }
 
     @ApiMethod(description = "Speichert ein Bild in der Datenbank")
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public @ResponseBody Vote addVote(@ApiPathParam(name = "vote", description = "Wertung, welche in der Datenbank hinzugefügt werden soll") @Valid @RequestBody Vote vote) {
+    public @ResponseBody
+    Vote addVote(@ApiPathParam(name = "vote", description = "Wertung, welche in der Datenbank hinzugefügt werden soll") @Valid @RequestBody Vote vote) {
 
         return voteService.addVote(vote);
     }
 
     @ApiMethod(description = "Gibt das Ranking aller Bilder zurück")
     @RequestMapping(value = "/ranking", method = RequestMethod.GET)
-    public @ResponseBody List<Ranking> getRanking() {
+    public @ResponseBody
+    List<Ranking> getRanking() {
 
         return voteService.getRanking();
     }
 
     @ApiMethod(description = "Die Anzahl der Bilder zurück, welche jeweils aus der linken und rechten Seite ein Voting gewonnen haben")
     @RequestMapping(value = "/statistics/countOfWinnerOnLeftAndRightSide", method = RequestMethod.GET)
-    public @ResponseBody WinnerOnLeftSide getCountOfWinnerOnLeftAndRightSide() {
+    public @ResponseBody
+    WinnerOnLeftSide getCountOfWinnerOnLeftAndRightSide() {
 
         return voteService.getCountOfWinnerOnLeftAndRightSide();
+    }
+
+    @ApiMethod(description = "Gibt die Anzahl der Votes der letzten 24h, der letzten 7 Tage und des gesamten Zeitraums zurück")
+    @RequestMapping(value = "/statistics/basicStatisticData", method = RequestMethod.GET)
+    public @ResponseBody
+    BasicStatisticData getBasicStatisticData() {
+
+        return voteService.getBasicStatisticData();
     }
 }

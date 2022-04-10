@@ -1,9 +1,8 @@
 package com.softwareproject.backend.service;
 
-import com.softwareproject.backend.api.ImageDetails;
+import com.softwareproject.backend.model.ImageDetails;
 import com.softwareproject.backend.model.Image;
 import com.softwareproject.backend.repository.ImageRepository;
-import com.softwareproject.backend.repository.VoteRepository;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.stereotype.Service;

@@ -1,14 +1,27 @@
-package com.softwareproject.backend.api;
+package com.softwareproject.backend.model;
 
-import com.softwareproject.backend.model.Image;
+import org.jsondoc.core.annotation.ApiObject;
+import org.jsondoc.core.annotation.ApiObjectField;
 
+@ApiObject(name = "Ranking", description = "Stellt eine Platzierung eines Bildes dar")
 public class Ranking {
 
+    @ApiObjectField(name = "image", description = "Das Bild, zu dem das Ranking gehört")
     private Image image;
+
+    @ApiObjectField(name = "datetime", description = "Aktuelles Datum, an dem das Ranking erstellt wurde")
     private long datetime;
+
+    @ApiObjectField(name = "wins", description = "Gewonnene Votings")
     private int wins;
+
+    @ApiObjectField(name = "loses", description = "Verlorene Votings")
     private int loses;
+
+    @ApiObjectField(name = "winsPerVote", description = "Prozentualer Anteil der Gewinne des Bildes")
     private double winsPerVote;
+
+    @ApiObjectField(name = "rank", description = "Rang des Bildes")
     private int rank;
 
     public Ranking() {

@@ -1,18 +1,18 @@
 package com.softwareproject.backend.service;
 
-import com.softwareproject.backend.api.Ranking;
-import com.softwareproject.backend.api.RankingResponse;
-import com.softwareproject.backend.api.WinnerOnLeftAndRightSideResponse;
-import com.softwareproject.backend.api.WinnerOnLeftSide;
+import com.softwareproject.backend.response.*;
+import com.softwareproject.backend.model.BasicStatisticData;
+import com.softwareproject.backend.model.Ranking;
 import com.softwareproject.backend.model.Vote;
+import com.softwareproject.backend.model.WinnerOnLeftSide;
 import com.softwareproject.backend.repository.VoteRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
 import javax.validation.Valid;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Validated
@@ -35,7 +35,7 @@ public class VoteService {
         return voteRepository.save(vote);
     }
 
-    public WinnerOnLeftSide getCountOfWinnerOnLeftAndRightSide(){
+    public WinnerOnLeftSide getCountOfWinnerOnLeftAndRightSide() {
 
         List<WinnerOnLeftAndRightSideResponse> winnerOnLeftAndRightSideResponseList = voteRepository.getCountOfWInnerOnLeftAndRightSide();
 
@@ -53,6 +53,26 @@ public class VoteService {
                 (int) winnerOnLeftSideCount.getCount(),
                 (int) winnerOnRightSideCount.getCount()
         );
+    }
+
+    public BasicStatisticData getBasicStatisticData() {
+
+        List<Long> datetimeList = voteRepository.findDatetime();
+        BasicStatisticData basicStatisticData = new BasicStatisticData();
+
+        basicStatisticData.setVotesTotal(datetimeList.size());
+        basicStatisticData.setVotesLastTwentyFourHours((int) datetimeList.stream()
+                .filter(datetime -> {
+                    LocalDateTime localDateTimeInserted = LocalDateTime.ofInstant(Instant.ofEpochMilli(datetime), TimeZone.getDefault().toZoneId());
+                    return localDateTimeInserted.isAfter(LocalDateTime.now().minusDays(1));
+                }).count());
+        basicStatisticData.setVotesLastSevenDays((int) datetimeList.stream()
+                .filter(datetime -> {
+                    LocalDateTime localDateTimeInserted = LocalDateTime.ofInstant(Instant.ofEpochMilli(datetime), TimeZone.getDefault().toZoneId());
+                    return localDateTimeInserted.isAfter(LocalDateTime.now().minusWeeks(1));
+                }).count());
+
+        return basicStatisticData;
     }
 
     public List<Ranking> getRanking() {
@@ -97,14 +117,14 @@ public class VoteService {
                 .sorted(Comparator.comparing(Ranking::getWinsPerVote).reversed())
                 .collect(Collectors.toList());
 
-        for (int i = 0; i < rankingListOrdered.size(); i++){
+        for (int i = 0; i < rankingListOrdered.size(); i++) {
             double lastWinsPerVote = i == 0
                     ? -1
                     : rankingListOrdered.get(i - 1).getWinsPerVote();
-            if (lastWinsPerVote == rankingListOrdered.get(i).getWinsPerVote()){
+            if (lastWinsPerVote == rankingListOrdered.get(i).getWinsPerVote()) {
                 rankingListOrdered.get(i).setRank(rankingListOrdered.get(i - 1).getRank());
-            }else {
-                rankingListOrdered.get(i).setRank(i +1);
+            } else {
+                rankingListOrdered.get(i).setRank(i + 1);
             }
         }
 

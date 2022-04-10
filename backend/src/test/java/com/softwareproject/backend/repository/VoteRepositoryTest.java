@@ -1,8 +1,8 @@
 package com.softwareproject.backend.repository;
 
 import com.softwareproject.backend.BackendApplication;
-import com.softwareproject.backend.api.RankingResponse;
-import com.softwareproject.backend.api.WinnerOnLeftAndRightSideResponse;
+import com.softwareproject.backend.response.RankingResponse;
+import com.softwareproject.backend.response.WinnerOnLeftAndRightSideResponse;
 import com.softwareproject.backend.model.Image;
 import com.softwareproject.backend.model.Vote;
 import org.junit.jupiter.api.Test;
@@ -14,6 +14,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.util.Arrays;
 import java.util.List;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @RunWith(SpringRunner.class)
@@ -64,11 +66,23 @@ class VoteRepositoryTest {
         imageRepository.saveAll(Arrays.asList(imageOne, imageTwo));
         voteRepository.saveAll(Arrays.asList(voteOne, voteTwo, voteThree));
 
-        List<WinnerOnLeftAndRightSideResponse>  winnerOnLeftAndRightSideResponseList = voteRepository.getCountOfWInnerOnLeftAndRightSide();
+        List<WinnerOnLeftAndRightSideResponse> winnerOnLeftAndRightSideResponseList = voteRepository.getCountOfWInnerOnLeftAndRightSide();
 
         assertEquals(2, winnerOnLeftAndRightSideResponseList.size());
         checkEntry(new WinnerOnLeftAndRightSideResponse(false, 2), winnerOnLeftAndRightSideResponseList.get(0));
         checkEntry(new WinnerOnLeftAndRightSideResponse(true, 1), winnerOnLeftAndRightSideResponseList.get(1));
+    }
+
+    @Test
+    void findDatetime() {
+
+        imageRepository.saveAll(Arrays.asList(imageOne, imageTwo));
+        voteRepository.saveAll(Arrays.asList(voteOne, voteTwo, voteThree));
+
+        List<Long> datetimeList = voteRepository.findDatetime();
+
+        assertEquals(3, datetimeList.size());
+        assertThat(datetimeList, containsInAnyOrder(12L, 123L, 1234L));
     }
 
     private void checkEntry(RankingResponse rankingResponseExpected, RankingResponse rankingResponseActual) {

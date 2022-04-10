@@ -1,4 +1,4 @@
-package com.softwareproject.backend.api;
+package com.softwareproject.backend.response;
 
 import com.softwareproject.backend.model.Image;
 

@@ -1,8 +1,15 @@
-package com.softwareproject.backend.api;
+package com.softwareproject.backend.model;
 
+import org.jsondoc.core.annotation.ApiObject;
+import org.jsondoc.core.annotation.ApiObjectField;
+
+@ApiObject(name = "WinnerOnLeftSide", description = "Repräsentiert die Anzal der Gewinne, welche Bilder auf der linken und rechten Seite gemacht haben")
 public class WinnerOnLeftSide {
 
+    @ApiObjectField(name = "winnerOnLeftSideCount", description = "Anzahl der Gewinne auf der linken Seite")
     private int winnerOnLeftSideCount;
+
+    @ApiObjectField(name = "winnerOnRightSideCount", description = "Anzahl der Gewinne auf der rechten Seite")
     private int winnerOnRightSideCount;
 
     public WinnerOnLeftSide() {

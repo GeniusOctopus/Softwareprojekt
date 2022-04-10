@@ -1,9 +1,9 @@
 package com.softwareproject.backend.service;
 
-import com.softwareproject.backend.api.Ranking;
-import com.softwareproject.backend.api.RankingResponse;
-import com.softwareproject.backend.api.WinnerOnLeftAndRightSideResponse;
-import com.softwareproject.backend.api.WinnerOnLeftSide;
+import com.softwareproject.backend.model.Ranking;
+import com.softwareproject.backend.response.RankingResponse;
+import com.softwareproject.backend.response.WinnerOnLeftAndRightSideResponse;
+import com.softwareproject.backend.model.WinnerOnLeftSide;
 import com.softwareproject.backend.model.Image;
 import com.softwareproject.backend.model.Vote;
 import com.softwareproject.backend.repository.VoteRepository;
@@ -13,7 +13,7 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
 class VoteServiceTest {
@@ -25,9 +25,9 @@ class VoteServiceTest {
     private Vote voteResponseAndRequest;
     private final Image imageWinner = new Image();
     private final Image imageLoser = new Image();
-    private final Image imageOne = new Image(123, "abc",  "http://abc.de", 100, 200, 2, "cbd");
-    private final Image imageTwo = new Image(123, "def",  "http://def.de", 100, 200, 2, "cbd");
-    private final Image imageThree = new Image(123, "ghi",  "http://ghi.de", 100, 200, 2, "cbd");
+    private final Image imageOne = new Image(123, "abc", "http://abc.de", 100, 200, 2, "cbd");
+    private final Image imageTwo = new Image(123, "def", "http://def.de", 100, 200, 2, "cbd");
+    private final Image imageThree = new Image(123, "ghi", "http://ghi.de", 100, 200, 2, "cbd");
 
     @BeforeEach
     void setUp() {
@@ -61,7 +61,7 @@ class VoteServiceTest {
     }
 
     @Test
-    void getRanking(){
+    void getRanking() {
 
         List<RankingResponse> rankingResponseWinnerList = new ArrayList<>();
         rankingResponseWinnerList.add(new RankingResponse(imageOne, 1234, 3));
@@ -88,7 +88,7 @@ class VoteServiceTest {
 
 
     @Test
-    void getCountOfWinnerOnLeftAndRightSide(){
+    void getCountOfWinnerOnLeftAndRightSide() {
 
         List<WinnerOnLeftAndRightSideResponse> winnerOnLeftAndRightSideResponseList = new ArrayList<>();
         winnerOnLeftAndRightSideResponseList.add(new WinnerOnLeftAndRightSideResponse(true, 5));
@@ -105,13 +105,13 @@ class VoteServiceTest {
     }
 
     @Test
-    void getCountOfWinnerOnLeftAndRightSideWithNoVotes(){
+    void getCountOfWinnerOnLeftAndRightSideWithNoVotes() {
 
         when(voteRepository.getCountOfWInnerOnLeftAndRightSide()).thenReturn(new ArrayList<>());
 
         WinnerOnLeftSide winnerOnLeftSide = voteService.getCountOfWinnerOnLeftAndRightSide();
 
-        checkEntry(new WinnerOnLeftSide(0,0), winnerOnLeftSide);
+        checkEntry(new WinnerOnLeftSide(0, 0), winnerOnLeftSide);
 
         verify(voteRepository, times(1)).getCountOfWInnerOnLeftAndRightSide();
     }

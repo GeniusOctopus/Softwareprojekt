@@ -1,13 +1,11 @@
 package com.softwareproject.backend.controller;
 
-import com.softwareproject.backend.api.Ranking;
-import com.softwareproject.backend.api.WinnerOnLeftSide;
+import com.softwareproject.backend.model.Ranking;
+import com.softwareproject.backend.model.WinnerOnLeftSide;
 import com.softwareproject.backend.model.Image;
 import com.softwareproject.backend.model.Vote;
 import com.softwareproject.backend.service.VoteService;
-import org.json.JSONObject;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -19,7 +17,6 @@ import java.util.List;
 
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;

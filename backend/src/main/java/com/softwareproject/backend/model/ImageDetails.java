@@ -1,13 +1,24 @@
-package com.softwareproject.backend.api;
+package com.softwareproject.backend.model;
 
-import com.softwareproject.backend.model.Image;
+import org.jsondoc.core.annotation.ApiObject;
+import org.jsondoc.core.annotation.ApiObjectField;
 
+@ApiObject(name = "ImageDetails", description = "Die Details zu einem Bild")
 public class ImageDetails {
 
+    @ApiObjectField(name = "image", description = "Das Bild, zu dem die Details angegeben werden")
     private Image image;
+
+    @ApiObjectField(name = "breedName", description = "Name der Rasse")
     private String breedName;
+
+    @ApiObjectField(name = "description", description = "Eine nähere Beschreibung der Rasse")
     private String description;
+
+    @ApiObjectField(name = "origin", description = "Ursprungsland der Rasse")
     private String origin;
+
+    @ApiObjectField(name = "wikipediaUrl", description = "URL zum Wikipedia-Artikel der Rasse")
     private String wikipediaUrl;
 
     public ImageDetails() {

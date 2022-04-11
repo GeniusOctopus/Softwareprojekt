@@ -22,12 +22,18 @@
         <b>Date added</b>
         <p>{{data.imageDetails.image.datetime | date:'dd.MM.yyyy'}}</p>
         <b>Wikipedia</b>
-        <p><a href="{{data.imageDetails.wikipediaUrl}}">Link to Wikipedia</a></p>
+        <p>
+          <a href="{{data.imageDetails.wikipediaUrl === 'not available' ? '' : data.imageDetails.wikipediaUrl}}"
+             id="{{data.imageDetails.wikipediaUrl === 'not available' ? 'inactiveLink' : ''}}"
+             target="_blank">
+            {{data.imageDetails.wikipediaUrl === 'not available' ? 'not available' : 'Link to Wikipedia'}}
+          </a>
+        </p>
       </div>
     </div>
     <div class="row">
-        <b>Description</b>
-        <p>{{data.imageDetails.description}}</p>
+      <b>Description</b>
+      <p>{{data.imageDetails.description}}</p>
     </div>
   </div>
 </div>

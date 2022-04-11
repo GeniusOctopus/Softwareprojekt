@@ -143,10 +143,10 @@ public class ImageService {
         JSONObject jsonObjectBreedsDetails = jsonArrayBreeds.getJSONObject(0);
 
         return new ImageDetails(
-                jsonObjectBreedsDetails.getString("name"),
-                jsonObjectBreedsDetails.getString("description"),
-                jsonObjectBreedsDetails.getString("origin"),
-                jsonObjectBreedsDetails.getString("wikipedia_url")
+                getValue("name", jsonObjectBreedsDetails),
+                getValue("description", jsonObjectBreedsDetails),
+                getValue("origin", jsonObjectBreedsDetails),
+                getValue("wikipedia_url", jsonObjectBreedsDetails)
         );
     }
 
@@ -156,5 +156,11 @@ public class ImageService {
             double proportionalFactor = (double) image.getHeight() / image.getWidth();
             return proportionalFactor < minProportionFactor || proportionalFactor > maxProportionFactor;
         });
+    }
+
+    private String getValue(String key, JSONObject jsonObject){
+        return jsonObject.has(key)
+                ? jsonObject.getString(key)
+                : "not available";
     }
 }

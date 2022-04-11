@@ -4,3 +4,8 @@
   max-height: 800px;
   object-fit: contain;
 }
+
+#inactiveLink {
+  pointer-events: none;
+  cursor: default;
+}

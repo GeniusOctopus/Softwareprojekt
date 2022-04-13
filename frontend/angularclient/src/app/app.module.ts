@@ -21,6 +21,9 @@ import {MatSortModule} from "@angular/material/sort";
 import {MatPaginatorModule} from "@angular/material/paginator";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
+import {NgChartsModule} from "ng2-charts";
+import {MatCardModule} from "@angular/material/card";
+import {StatisticService} from "../service/statisticService";
 
 @NgModule({
   declarations: [
@@ -32,23 +35,26 @@ import {MatInputModule} from "@angular/material/input";
     ImageDetailsComponent,
     RankingComponent
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    HttpClientModule,
-    BrowserAnimationsModule,
-    MatDialogModule,
-    MatTabsModule,
-    MatTableModule,
-    MatSortModule,
-    MatPaginatorModule,
-    MatFormFieldModule,
-    MatInputModule
-  ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        HttpClientModule,
+        BrowserAnimationsModule,
+        MatDialogModule,
+        MatTabsModule,
+        MatTableModule,
+        MatSortModule,
+        MatPaginatorModule,
+        MatFormFieldModule,
+        MatInputModule,
+        NgChartsModule,
+        MatCardModule
+    ],
   providers: [
     DumpService,
     ImageService,
-    VoteService
+    VoteService,
+    StatisticService
   ],
   bootstrap: [AppComponent]
 })

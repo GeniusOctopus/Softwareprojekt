@@ -1,27 +1,24 @@
 <div class="row">
   <div class="col-sm-4">
-    <mat-card>
+    <mat-card  class="mat-card-statistics">
       <mat-card-title>Votes last 24h</mat-card-title>
       <span>{{basicStatisticData?.votesLastTwentyFourHours}}</span>
     </mat-card>
   </div>
   <div class="col-sm-4">
-    <mat-card>
-      <mat-card-title>Votes last week</mat-card-title>
+    <mat-card  class="mat-card-statistics">
+      <mat-card-title>Votes last 7 days</mat-card-title>
       <span>{{basicStatisticData?.votesLastSevenDays}}</span>
     </mat-card>
   </div>
   <div class="col-sm-4">
-    <mat-card>
+    <mat-card  class="mat-card-statistics">
       <mat-card-title>Votes total</mat-card-title>
       <span>{{basicStatisticData?.votesTotal}}</span>
     </mat-card>
   </div>
-</div>
-<br>
-<div class="row">
   <div class="col-sm-6">
-    <mat-card>
+    <mat-card  class="mat-card-statistics">
       <mat-card-title>Vote wins on left an right side</mat-card-title>
       <canvas baseChart
               [data]="pieChartData"
@@ -32,7 +29,7 @@
     </mat-card>
   </div>
   <div class="col-sm-6">
-    <mat-card>
+    <mat-card  class="mat-card-statistics">
       <mat-card-title>Vote duration</mat-card-title>
       <canvas baseChart
               [data]="lineChartData"

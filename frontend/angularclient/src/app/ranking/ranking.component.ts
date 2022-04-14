@@ -15,13 +15,12 @@ import {MatSort} from "@angular/material/sort";
   styleUrls: ['./ranking.component.css']
 })
 export class RankingComponent implements OnInit {
-  displayedColumns: string[] = ['rank', 'image', 'wins', 'loses', 'winsPerVote', 'datetime'];
+  displayedColumns: string[] = ['rank', 'image', 'wins', 'loses', 'winsPerVote', 'datetime', 'information'];
   ranking: Ranking[] = [];
   imageDetails: ImageDetails = new ImageDetails();
   dataSource: MatTableDataSource<Ranking> = new MatTableDataSource<Ranking>();
 
-  // @ts-ignore
-  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) matSort = new MatSort();
 
   constructor(private voteService: VoteService,

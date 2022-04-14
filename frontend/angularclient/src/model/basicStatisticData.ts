@@ -1,5 +1,5 @@
 export class BasicStatisticData{
-  votesLastTwentyFourHours: number | undefined;
-  votesLastSevenDays: number | undefined;
-  votesTotal: number | undefined;
+  votesLastTwentyFourHours: number = 0;
+  votesLastSevenDays: number = 0;
+  votesTotal: number = 0;
 }

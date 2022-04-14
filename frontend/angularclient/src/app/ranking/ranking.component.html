@@ -28,32 +28,21 @@
 
     <ng-container matColumnDef="datetime" >
       <th mat-header-cell *matHeaderCellDef mat-sort-header="datetime"> Date added </th>
-      <td mat-cell *matCellDef="let rank"> {{rank.image.datetime| date:'dd.MM.yyyy'}} </td>
+      <td mat-cell *matCellDef="let rank"> {{rank.image.datetime| date:'dd.MM.yyyy'}}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="information">
+      <th mat-header-cell  *matHeaderCellDef > Information </th>
+      <td mat-cell *matCellDef="let rank" >
+        <mat-icon color="primary">
+          info
+        </mat-icon>
+      </td>
     </ng-container>
 
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let rank; columns: displayedColumns;" (click)="showDetails(rank)"></tr>
 
-    <!--
-    <thead>
-    <th scope="col">Rank</th>
-    <th scope="col">Picture</th>
-    <th scope="col">Wins</th>
-    <th scope="col">Loses</th>
-    <th scope="col">Wins per vote</th>
-    <th scope="col">Date added</th>
-    </thead>
-    <tbody>
-    <tr *ngFor="let rank of ranking; let i = index " (click)="showDetails(rank)">
-      <th scope="row" class="align-middle">{{i + 1}}</th>
-      <td class="align-middle"><img src="{{rank.image?.url}}" alt="Pircture of a cat" width="50px" height="50px" id="thumbnail"></td>
-      <td class="align-middle">{{rank.wins}}</td>
-      <td class="align-middle">{{rank.loses}}</td>
-      <td class="align-middle">{{rank.winsPerVote | percent}}</td>
-      <td class="align-middle">{{rank.image?.datetime | date:'dd.MM.yyyy'}}</td>
-    </tr>
-    </tbody>
-    -->
   </table>
   <mat-paginator #paginator [pageSize]="10" [pageSizeOptions]="[10, 25, 100]" showFirstLastButtons></mat-paginator>
 </div>

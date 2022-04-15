@@ -24,6 +24,7 @@ class VoteServiceTest {
     private final Image imageOne = new Image(123, "abc", "http://abc.de", 100, 200, 2, "cbd");
     private final Image imageTwo = new Image(123, "def", "http://def.de", 100, 200, 2, "cbd");
     private final Image imageThree = new Image(123, "ghi", "http://ghi.de", 100, 200, 2, "cbd");
+    private final Image imageFour = new Image(123, "jkl", "http://jkl.de", 100, 200, 2, "cbd");
 
     @BeforeEach
     void setUp() {
@@ -60,12 +61,14 @@ class VoteServiceTest {
     void getRanking() {
 
         List<RankingResponse> rankingResponseWinnerList = new ArrayList<>();
-        rankingResponseWinnerList.add(new RankingResponse(imageOne, 1234, 3));
-        rankingResponseWinnerList.add(new RankingResponse(imageTwo, 12345, 2));
+        rankingResponseWinnerList.add(new RankingResponse(imageOne, 1234, 5));
+        rankingResponseWinnerList.add(new RankingResponse(imageTwo, 12345, 10));
+        rankingResponseWinnerList.add(new RankingResponse(imageFour, 12345, 10));
 
         List<RankingResponse> rankingResponseLoserList = new ArrayList<>();
-        rankingResponseLoserList.add(new RankingResponse(imageOne, 1234, 1));
-        rankingResponseLoserList.add(new RankingResponse(imageTwo, 12345, 2));
+        rankingResponseLoserList.add(new RankingResponse(imageOne, 1234, 5));
+        rankingResponseLoserList.add(new RankingResponse(imageTwo, 12345, 10));
+        rankingResponseLoserList.add(new RankingResponse(imageFour, 12345, 10));
         rankingResponseLoserList.add(new RankingResponse(imageThree, 12345, 5));
 
         when(voteRepository.getWins()).thenReturn(rankingResponseWinnerList);
@@ -73,10 +76,11 @@ class VoteServiceTest {
 
         List<Ranking> rankingList = voteService.getRanking();
 
-        assertEquals(3, rankingList.size());
-        checkRankingObject(new Ranking(imageOne, 3, 1, 0.75, 1), rankingList.get(0));
-        checkRankingObject(new Ranking(imageTwo, 2, 2, 0.5, 2), rankingList.get(1));
-        checkRankingObject(new Ranking(imageThree, 0, 5, 0.0, 3), rankingList.get(2));
+        assertEquals(4, rankingList.size());
+        checkRankingObject(new Ranking(imageTwo, 10, 10, 0.5, 1), rankingList.get(0));
+        checkRankingObject(new Ranking(imageFour, 10, 10, 0.5, 1), rankingList.get(1));
+        checkRankingObject(new Ranking(imageOne, 5, 5, 0.5, 3), rankingList.get(2));
+        checkRankingObject(new Ranking(imageThree, 0, 5, 0.0, 4), rankingList.get(3));
 
         verify(voteRepository, times(1)).getWins();
         verify(voteRepository, times(1)).getLoses();

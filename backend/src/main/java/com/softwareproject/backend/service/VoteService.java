@@ -144,13 +144,17 @@ public class VoteService {
 
         List<Ranking> rankingListOrdered = rankingList.stream()
                 .sorted(Comparator.comparing(Ranking::getWinsPerVote).reversed())
+                .sorted(Comparator.comparing(Ranking::getWins).reversed())
                 .collect(Collectors.toList());
 
         for (int i = 0; i < rankingListOrdered.size(); i++) {
             double lastWinsPerVote = i == 0
                     ? -1
                     : rankingListOrdered.get(i - 1).getWinsPerVote();
-            if (lastWinsPerVote == rankingListOrdered.get(i).getWinsPerVote()) {
+            double lastWinsTotal = i == 0
+                    ? -1
+                    : rankingListOrdered.get(i - 1).getWins();
+            if (lastWinsPerVote == rankingListOrdered.get(i).getWinsPerVote() && lastWinsTotal == rankingListOrdered.get(i).getWins()) {
                 rankingListOrdered.get(i).setRank(rankingListOrdered.get(i - 1).getRank());
             } else {
                 rankingListOrdered.get(i).setRank(i + 1);

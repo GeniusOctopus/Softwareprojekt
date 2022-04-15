@@ -19,6 +19,8 @@ import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
+import java.util.stream.Collectors;
 
 @Validated
 @Service
@@ -37,7 +39,28 @@ public class ImageService {
 
     public List<Image> getImagesForVoting() {
 
-        return imageRepository.getImagesForVoting();
+        List<Image> imageList = imageRepository.getImagesForVoting();
+        List<Image> imageListResponse = new ArrayList<>();
+
+        int minimumTimesShown = imageList.get(0).getTimesShown();
+
+        List<Image> imageListWithMinimumTimesShown = imageList.stream()
+                .filter(image -> image.getTimesShown() == minimumTimesShown)
+                .collect(Collectors.toList());
+
+        if (imageListWithMinimumTimesShown.size() >= 2) {
+            insertRandomImageToResponseList(imageListWithMinimumTimesShown, imageListResponse);
+            insertRandomImageToResponseList(imageListWithMinimumTimesShown, imageListResponse);
+        } else {
+            //0 Einträge mit minimumTimesShown können nicht drin sein, es kann also nur noch 1 drin sein
+            imageListResponse.add(imageListWithMinimumTimesShown.get(0));
+            imageListResponse.add(imageList.stream()
+                    .filter(image -> image.getTimesShown() == minimumTimesShown + 1)
+                    .collect(Collectors.toList())
+                    .get(0));
+        }
+
+        return imageListResponse;
     }
 
     public void increaseTimesShownForVoting(int id) {
@@ -158,9 +181,15 @@ public class ImageService {
         });
     }
 
-    private String getValue(String key, JSONObject jsonObject){
+    private String getValue(String key, JSONObject jsonObject) {
         return jsonObject.has(key)
                 ? jsonObject.getString(key)
                 : "not available";
+    }
+
+    private void insertRandomImageToResponseList(List<Image> imageListWithMinimumTimesShown, List<Image> imageListResponse) {
+        int randomIndex = new Random().nextInt(imageListWithMinimumTimesShown.size());
+        imageListResponse.add(imageListWithMinimumTimesShown.get(randomIndex));
+        imageListWithMinimumTimesShown.remove(randomIndex);
     }
 }

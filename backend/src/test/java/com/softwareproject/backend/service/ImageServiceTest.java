@@ -3,6 +3,7 @@ package com.softwareproject.backend.service;
 import com.softwareproject.backend.model.ImageDetails;
 import com.softwareproject.backend.model.Image;
 import com.softwareproject.backend.repository.ImageRepository;
+import org.hamcrest.Matchers;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -18,24 +19,22 @@ class ImageServiceTest {
     private final ImageRepository imageRepository = mock(ImageRepository.class);
     private final ImageService imageService = new ImageService(imageRepository);
 
+    private static final Image IMAGE_ONE = new Image(1, 123456789L, "nN4B8YFbb", "http://BildZurKatze.png", 1200, 720, 0, "somi");
+    private static final Image IMAGE_TWO = new Image(2, 1234569L, "catApiId2", "http://BildZurKatze2.png", 1201, 721, 1, "abc");
+    private static final Image IMAGE_THREE = new Image(3, 123456L, "catApiId3", "http://BildZurKatze3.png", 1202, 722, 1, "abc");
+
     @Test
     void getAllImages() {
 
         List<Image> imageListMock = new ArrayList<>();
-        imageListMock.add(new Image(1, 123456789L, "catApiId", "http://BildZurKatze.png", 1200, 720, 0, "abc"));
+        imageListMock.add(IMAGE_ONE);
 
         when(imageRepository.findAll()).thenReturn(imageListMock);
 
         List<Image> imageListResponse = imageService.getAllImages();
 
         assertEquals(1, imageListResponse.size());
-        assertEquals(1, imageListResponse.get(0).getId());
-        assertEquals(123456789L, imageListResponse.get(0).getDatetime());
-        assertEquals("catApiId", imageListResponse.get(0).getCatApiId());
-        assertEquals("http://BildZurKatze.png", imageListResponse.get(0).getUrl());
-        assertEquals(1200, imageListResponse.get(0).getWidth());
-        assertEquals(720, imageListResponse.get(0).getHeight());
-        assertEquals(0, imageListResponse.get(0).getTimesShown());
+        checkEntry(IMAGE_ONE, imageListResponse.get(0));
 
         verify(imageRepository, times(1)).findAll();
     }
@@ -44,28 +43,40 @@ class ImageServiceTest {
     void getImagesForVoting() {
 
         List<Image> imageListMock = new ArrayList<>();
-        imageListMock.add(new Image(1, 123456789L, "catApiId1", "http://BildZurKatze1.png", 1200, 720, 0, "abc"));
-        imageListMock.add(new Image(2, 123456789L, "catApiId2", "http://BildZurKatze2.png", 1201, 721, 1, "abc"));
+        imageListMock.add(IMAGE_ONE);
+        imageListMock.add(IMAGE_TWO);
+        imageListMock.add(IMAGE_THREE);
 
         when(imageRepository.getImagesForVoting()).thenReturn(imageListMock);
 
         List<Image> imageListResponse = imageService.getImagesForVoting();
 
         assertEquals(2, imageListResponse.size());
-        assertEquals(1, imageListResponse.get(0).getId());
-        assertEquals(123456789L, imageListResponse.get(0).getDatetime());
-        assertEquals("catApiId1", imageListResponse.get(0).getCatApiId());
-        assertEquals("http://BildZurKatze1.png", imageListResponse.get(0).getUrl());
-        assertEquals(1200, imageListResponse.get(0).getWidth());
-        assertEquals(720, imageListResponse.get(0).getHeight());
-        assertEquals(0, imageListResponse.get(0).getTimesShown());
-        assertEquals(2, imageListResponse.get(1).getId());
-        assertEquals(123456789L, imageListResponse.get(1).getDatetime());
-        assertEquals("catApiId2", imageListResponse.get(1).getCatApiId());
-        assertEquals("http://BildZurKatze2.png", imageListResponse.get(1).getUrl());
-        assertEquals(1201, imageListResponse.get(1).getWidth());
-        assertEquals(721, imageListResponse.get(1).getHeight());
-        assertEquals(1, imageListResponse.get(1).getTimesShown());
+        checkEntry(IMAGE_ONE, imageListResponse.get(0));
+        assertTrue(imageListResponse.get(1) == IMAGE_TWO || imageListResponse.get(1) == IMAGE_THREE);
+
+        verify(imageRepository, times(1)).getImagesForVoting();
+    }
+
+    @Test
+    void getImagesForVotingAllImagesHaveSameTimesOfShown() {
+
+        List<Image> imageListMock = new ArrayList<>();
+        imageListMock.add(IMAGE_TWO);
+        imageListMock.add(IMAGE_THREE);
+
+        when(imageRepository.getImagesForVoting()).thenReturn(imageListMock);
+
+        List<Image> imageListResponse = imageService.getImagesForVoting();
+
+        assertEquals(2, imageListResponse.size());
+        if (imageListResponse.get(0).getId() == IMAGE_TWO.getId()){
+            checkEntry(IMAGE_TWO, imageListResponse.get(0));
+            checkEntry(IMAGE_THREE, imageListResponse.get(1));
+        }else {
+            checkEntry(IMAGE_TWO, imageListResponse.get(1));
+            checkEntry(IMAGE_THREE, imageListResponse.get(0));
+        }
 
         verify(imageRepository, times(1)).getImagesForVoting();
     }
@@ -79,57 +90,60 @@ class ImageServiceTest {
     }
 
     @Test
-    @DisplayName("Speichert ein Bild in der Datenbank")
     void addImage() {
 
-        Image image = new Image(1, 123456789L, "catApiId", "http://BildZurKatze.png", 1200, 720, 0, "abc");
+        when(imageRepository.save(IMAGE_ONE)).thenReturn(IMAGE_ONE);
 
-        when(imageRepository.save(image)).thenReturn(image);
+        Image imageResponse = imageService.addImage(IMAGE_ONE);
 
-        Image imageResponse = imageService.addImage(image);
+        checkEntry(IMAGE_ONE, imageResponse);
 
-        assertEquals(1, imageResponse.getId());
-        assertEquals(123456789L, imageResponse.getDatetime());
-        assertEquals("catApiId", imageResponse.getCatApiId());
-        assertEquals("http://BildZurKatze.png", imageResponse.getUrl());
-        assertEquals(1200, imageResponse.getWidth());
-        assertEquals(720, imageResponse.getHeight());
-        assertEquals(0, imageResponse.getTimesShown());
-
-        verify(imageRepository, times(1)).save(image);
+        verify(imageRepository, times(1)).save(IMAGE_ONE);
     }
 
     @Test
-    void getImageDetailsById(){
+    void getImageDetailsById() {
 
-        Image image = new Image(1, 12345, "nN4B8YFbb", "http://abcd.de", 100, 200, 3, "somi");
-        Optional<Image> imageOptional = Optional.of(image);
-        when(imageRepository.findById(1)).thenReturn(imageOptional);
+        Optional<Image> imageOptional = Optional.of(IMAGE_ONE);
+        when(imageRepository.findById(IMAGE_ONE.getId())).thenReturn(imageOptional);
 
-        ImageDetails imageDetailsResponse = imageService.getImageDetailsById(1);
+        ImageDetails imageDetailsResponse = imageService.getImageDetailsById(IMAGE_ONE.getId());
 
-        assertEquals(image, imageDetailsResponse.getImage());
-        assertEquals("Somali", imageDetailsResponse.getBreedName());
-        assertEquals("The Somali lives life to the fullest. He climbs higher, jumps farther, plays harder. Nothing escapes the notice of this highly intelligent and inquisitive cat. Somalis love the company of humans and other animals.", imageDetailsResponse.getDescription());
-        assertEquals("Somalia", imageDetailsResponse.getOrigin());
-        assertEquals("https://en.wikipedia.org/wiki/Somali_(cat)", imageDetailsResponse.getWikipediaUrl());
+        checkEntry(new ImageDetails(IMAGE_ONE, "Somali", "The Somali lives life to the fullest. He climbs higher, jumps farther, plays harder. Nothing escapes the notice of this highly intelligent and inquisitive cat. Somalis love the company of humans and other animals.", "Somalia", "https://en.wikipedia.org/wiki/Somali_(cat)"), imageDetailsResponse);
 
-        verify(imageRepository, times(1)).findById(1);
+        verify(imageRepository, times(1)).findById(IMAGE_ONE.getId());
     }
 
     @Test
-    void getImageDetailsByIdImageNotFoundInDatabase(){
+    void getImageDetailsByIdImageNotFoundInDatabase() {
 
-        when(imageRepository.findById(1)).thenReturn(Optional.empty());
+        when(imageRepository.findById(IMAGE_ONE.getId())).thenReturn(Optional.empty());
 
-        ImageDetails imageDetailsResponse = imageService.getImageDetailsById(1);
+        ImageDetails imageDetailsResponse = imageService.getImageDetailsById(IMAGE_ONE.getId());
 
-        assertNull(imageDetailsResponse.getImage());
-        assertNull(imageDetailsResponse.getBreedName());
-        assertNull(imageDetailsResponse.getDescription());
-        assertNull(imageDetailsResponse.getOrigin());
-        assertNull(imageDetailsResponse.getWikipediaUrl());
+        checkEntry(new ImageDetails(), imageDetailsResponse);
 
-        verify(imageRepository, times(1)).findById(1);
+        verify(imageRepository, times(1)).findById(IMAGE_ONE.getId());
+    }
+
+    private void checkEntry(Image imageExpected, Image imageActual) {
+
+        assertEquals(imageExpected.getId(), imageActual.getId());
+        assertEquals(imageExpected.getDatetime(), imageActual.getDatetime());
+        assertEquals(imageExpected.getCatApiId(), imageActual.getCatApiId());
+        assertEquals(imageExpected.getUrl(), imageActual.getUrl());
+        assertEquals(imageExpected.getWidth(), imageActual.getWidth());
+        assertEquals(imageExpected.getHeight(), imageActual.getHeight());
+        assertEquals(imageExpected.getTimesShown(), imageActual.getTimesShown());
+        assertEquals(imageExpected.getCatApiBreedId(), imageActual.getCatApiBreedId());
+    }
+
+    private void checkEntry(ImageDetails imageDetailsExpected, ImageDetails imageDetailsActual) {
+
+        assertEquals(imageDetailsExpected.getImage(), imageDetailsActual.getImage());
+        assertEquals(imageDetailsExpected.getBreedName(), imageDetailsActual.getBreedName());
+        assertEquals(imageDetailsExpected.getDescription(), imageDetailsActual.getDescription());
+        assertEquals(imageDetailsExpected.getOrigin(), imageDetailsActual.getOrigin());
+        assertEquals(imageDetailsExpected.getWikipediaUrl(), imageDetailsActual.getWikipediaUrl());
     }
 }

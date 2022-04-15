@@ -11,7 +11,7 @@ import java.util.List;
 
 public interface ImageRepository extends JpaRepository<Image, Integer> {
 
-    @Query(value = "SELECT * FROM image ORDER BY times_shown ASC LIMIT 2", nativeQuery = true)
+    @Query(value = "SELECT * FROM image ORDER BY times_shown ASC", nativeQuery = true)
     List<Image> getImagesForVoting();
 
     @Modifying

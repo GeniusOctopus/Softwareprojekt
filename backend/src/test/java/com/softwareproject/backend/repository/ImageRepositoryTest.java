@@ -31,9 +31,11 @@ class ImageRepositoryTest {
 
         List<Image> imageListResponse = imageRepository.getImagesForVoting();
 
-        assertEquals(2, imageListResponse.size());
+        assertEquals(4, imageListResponse.size());
         checkEntry(imageOne, imageListResponse.get(0), null);
         checkEntry(imageTwo, imageListResponse.get(1), null);
+        checkEntry(imageThree, imageListResponse.get(2), null);
+        checkEntry(imageFour, imageListResponse.get(3), null);
     }
 
     @Test

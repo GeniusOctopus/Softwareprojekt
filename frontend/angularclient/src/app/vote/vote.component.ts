@@ -17,6 +17,9 @@ export class VoteComponent implements OnInit {
   startTime: number = 0;
   endTime: number = 0;
   overlayClass = "";
+  hideLeftLike = "visually-hidden";
+  hideRightLike = "visually-hidden";
+  likeAnimation = "";
 
   constructor(private imageService: ImageService, private voteService: VoteService) {}
 
@@ -36,6 +39,19 @@ export class VoteComponent implements OnInit {
   }
 
   async submitVote(imageWinner: Image, imageLoser: Image, winnerOnLeftSide: boolean) {
+
+    if (winnerOnLeftSide)
+      this.hideLeftLike = "";
+    else
+      this.hideRightLike = "";
+    this.likeAnimation = "like-animation";
+    await new Promise(f => setTimeout(f, 1200));
+    this.likeAnimation = "";
+    if (winnerOnLeftSide)
+      this.hideLeftLike = "visually-hidden";
+    else
+      this.hideRightLike = "visually-hidden";
+
     this.endTime = new Date().getTime();
 
     let vote: Vote = {

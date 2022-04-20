@@ -1,5 +1,5 @@
 img {
-  animation: fadeInAnimation ease 3s;
+  animation: fadeInAnimation ease 2s;
   animation-iteration-count: 1;
   animation-fill-mode: forwards;
 }
@@ -17,16 +17,57 @@ img {
   width: 100%;
   height: 80vh;
   object-fit: cover;
+  align-items: center;
+  justify-content: center;
 }
 
 .overlay-milkglass {
   background-color: #f7f7f7;
   opacity: 0.3;
+  pointer-events: none;
 }
 
 .spinner-border {
   position: absolute;
   left: 50% !important;
   top: 50% !important;
-  margin:0px auto;
+  margin: 0 auto;
+}
+
+.like {
+  position: absolute;
+  top: 43%;
+  left: 43%;
+  width: 20%;
+  opacity: 0.7;
+  fill: red;
+  margin: 0 auto;
+}
+
+.like-animation {
+  animation: 2s like-heart-animation ease-in-out forwards;
+}
+
+@keyframes like-heart-animation {
+  0%,
+  to {
+    opacity: 0;
+    -webkit-transform: scale(0);
+    transform: scale(0);
+  }
+  15% {
+    opacity: 0.9;
+    -webkit-transform: scale(1.2);
+    transform: scale(1.2);
+  }
+  30% {
+    -webkit-transform: scale(0.95);
+    transform: scale(0.95);
+  }
+  45%,
+  80% {
+    opacity: 0.9;
+    -webkit-transform: scale(1);
+    transform: scale(1);
+  }
 }

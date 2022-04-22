@@ -4,10 +4,7 @@ import {HttpClientModule} from "@angular/common/http";
 
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
-import {DumpComponent} from './dump/dump.component';
-import {DumpService} from "../service/dumpService";
 import {VoteComponent} from './vote/vote.component';
-import {HomeComponent} from './home/home.component';
 import {StatisticsComponent} from './statistics/statistics.component';
 import {ImageService} from "../service/imageService";
 import {VoteService} from "../service/voteService";
@@ -29,9 +26,7 @@ import {MatIconModule} from "@angular/material/icon";
 @NgModule({
   declarations: [
     AppComponent,
-    DumpComponent,
     VoteComponent,
-    HomeComponent,
     StatisticsComponent,
     ImageDetailsComponent,
     RankingComponent
@@ -53,7 +48,6 @@ import {MatIconModule} from "@angular/material/icon";
     MatIconModule
   ],
   providers: [
-    DumpService,
     ImageService,
     VoteService,
     StatisticService

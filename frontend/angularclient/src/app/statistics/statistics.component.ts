@@ -5,6 +5,8 @@ import {ChartConfiguration, ChartData, ChartType} from "chart.js";
 import DataLabelsPlugin from 'chartjs-plugin-datalabels';
 import {StatisticService} from "../../service/statisticService";
 import {BasicStatisticData} from "../../model/basicStatisticData";
+import {DurationStatisticData} from "../../model/durationStatisticData";
+import {niceNum} from "chart.js/helpers";
 
 @Component({
   selector: 'app-statistics',
@@ -16,6 +18,7 @@ export class StatisticsComponent implements OnInit {
   @ViewChild(BaseChartDirective) chart: BaseChartDirective | undefined;
   @ViewChild(BaseChartDirective) lineChart: BaseChartDirective | undefined;
 
+  durationStatisticData: DurationStatisticData | undefined;
   basicStatisticData: BasicStatisticData | undefined;
   pieChartData: ChartData<'pie', number[], string | string[]> | undefined;
   public lineChartData: ChartConfiguration['data'] | undefined;
@@ -84,16 +87,39 @@ export class StatisticsComponent implements OnInit {
 
     this.statisticService.getDurationStatistic()
       .subscribe((response) => {
-        this.lineChartData = {
-          datasets: [
-            {
-              data: [5, 2, 4, 5, 6, 7, 3, 6, 3, 6],
-              label: 'Time to vote',
-              fill: 'origin',
-            }
-          ],
-          labels: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '> 10']
-        };
+        console.log(response);
+
+        this.durationStatisticData = response;
+        let keys = Object.keys(this.durationStatisticData.durationData);
+        let values = Object.values(this.durationStatisticData.durationData);
+        this.durationStatisticData.durationData = new Map<number, number>();
+
+        for (let i = 0; i < 10; i++) {
+          this.durationStatisticData.durationData.set(Number(keys[i]), values[i]);
+        }
+
+        if (response.durationData !== undefined) {
+          this.lineChartData = {
+            datasets: [
+              {
+                data:
+                  [response.durationData.get(1)!,
+                    response.durationData.get(2)!,
+                    response.durationData.get(3)!,
+                    response.durationData.get(4)!,
+                    response.durationData.get(5)!,
+                    response.durationData.get(6)!,
+                    response.durationData.get(7)!,
+                    response.durationData.get(8)!,
+                    response.durationData.get(9)!,
+                    response.durationData.get(10)!],
+                label: 'Time to vote',
+                fill: 'origin',
+              }
+            ],
+            labels: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '> 10']
+          };
+        }
       });
   }
 }

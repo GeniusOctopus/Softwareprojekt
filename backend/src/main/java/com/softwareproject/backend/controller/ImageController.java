@@ -32,6 +32,13 @@ public class ImageController {
         return imageService.getAllImages();
     }
 
+    @ApiMethod(description = "Gibt ein Bild als Base64 string zurück")
+    @RequestMapping(value = "/imagestring/{id}", method = RequestMethod.GET)
+    public @ResponseBody String getImagestring(@ApiPathParam(name = "id", description = "Die ID des Bilds, welches zurückgegeben werden soll") @PathVariable("id") int id) {
+
+        return imageService.getBase64Image(imageService.getImageDetailsById(id).getImage().getUrl());
+    }
+
     @ApiMethod(description = "Gibt 2 Bilder für das Voting zurück")
     @RequestMapping(value = "/voting", method = RequestMethod.GET)
     public @ResponseBody List<Image> getImagesForVoting() {

@@ -3,6 +3,7 @@ package com.softwareproject.backend.service;
 import com.softwareproject.backend.model.ImageDetails;
 import com.softwareproject.backend.model.Image;
 import com.softwareproject.backend.repository.ImageRepository;
+import org.apache.tomcat.util.codec.binary.Base64;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.stereotype.Service;
@@ -15,6 +16,7 @@ import java.net.URISyntaxException;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.sql.Blob;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
@@ -71,6 +73,29 @@ public class ImageService {
     public Image addImage(@Valid Image image) {
 
         return imageRepository.save(image);
+    }
+
+    public String getBase64Image(String catApiUrl) {
+
+        byte[] image = new byte[0];
+        HttpClient httpClient = HttpClient
+                .newBuilder()
+                .connectTimeout(Duration.ofSeconds(10))
+                .build();
+
+        try {
+            URI catApiUri = new URI(catApiUrl);
+            HttpRequest httpRequest = HttpRequest
+                    .newBuilder(catApiUri)
+                    .GET()
+                    .build();
+            HttpResponse<byte[]> httpResponse = httpClient.send(httpRequest, HttpResponse.BodyHandlers.ofByteArray());
+
+            image = httpResponse.body();
+        } catch (URISyntaxException | IOException | InterruptedException e) {
+            e.printStackTrace();
+        }
+        return Base64.encodeBase64String(image);
     }
 
     public ImageDetails getImageDetailsById(int id) {

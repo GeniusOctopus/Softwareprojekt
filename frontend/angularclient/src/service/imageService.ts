@@ -23,4 +23,8 @@ export class ImageService {
   async getDetails(imageId: number | undefined) {
     return await this.http.get<ImageDetails>(this.imageBaseUrl + `/details/` + imageId).toPromise();
   }
+
+  getImageString(id: number) {
+    return this.http.get(this.imageBaseUrl + `/imagestring/${id}`, { responseType: 'text' })
+  }
 }

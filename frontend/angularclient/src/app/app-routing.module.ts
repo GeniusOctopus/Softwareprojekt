@@ -5,7 +5,7 @@ import {StatisticsComponent} from "./statistics/statistics.component";
 import {RankingComponent} from "./ranking/ranking.component";
 
 const routes: Routes = [
-  {path: '', pathMatch: 'full', redirectTo: 'home'},
+  {path: '', pathMatch: 'full', redirectTo: 'vote'},
   {path: 'vote', component: VoteComponent},
   {path: 'statistics', component: StatisticsComponent},
   {path: 'ranking', component: RankingComponent}

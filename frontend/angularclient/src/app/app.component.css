@@ -1,5 +1,9 @@
 .navbar {
-  background-color: #80715c !important;
+  background-color: #838579 !important;
+}
+
+.nav-link {
+  color: #1D211D !important;
 }
 
 #content{
